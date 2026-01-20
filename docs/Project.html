@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Indian_House_Pricing_Project</title>
+<title>Project</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -113,15 +113,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#file-description" id="toc-file-description" class="nav-link active" data-scroll-target="#file-description">File description:</a></li>
+  <li><a href="#column-description" id="toc-column-description" class="nav-link" data-scroll-target="#column-description">Column Description</a></li>
+  <li><a href="#observation-from-data" id="toc-observation-from-data" class="nav-link" data-scroll-target="#observation-from-data">Observation From Data</a>
+  <ul class="collapse">
+  <li><a href="#pricing" id="toc-pricing" class="nav-link" data-scroll-target="#pricing">Pricing</a></li>
+  <li><a href="#locality" id="toc-locality" class="nav-link" data-scroll-target="#locality">Locality</a></li>
+  <li><a href="#year-built" id="toc-year-built" class="nav-link" data-scroll-target="#year-built">Year Built</a></li>
+  <li><a href="#city" id="toc-city" class="nav-link" data-scroll-target="#city">City</a></li>
+  <li><a href="#bhk" id="toc-bhk" class="nav-link" data-scroll-target="#bhk">BHK</a></li>
+  <li><a href="#property" id="toc-property" class="nav-link" data-scroll-target="#property">Property</a></li>
+  <li><a href="#year-wise-price-change-analysis" id="toc-year-wise-price-change-analysis" class="nav-link" data-scroll-target="#year-wise-price-change-analysis">Year Wise Price Change Analysis</a></li>
+  <li><a href="#facing-direction" id="toc-facing-direction" class="nav-link" data-scroll-target="#facing-direction">Facing Direction</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Indian_House_Pricing_Project</h1>
+<h1 class="title">Project</h1>
 </div>
 
 
@@ -138,17 +156,678 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>This is a Quarto website.</p>
-<p>To learn more about Quarto websites visit <a href="https://quarto.org/docs/websites" class="uri">https://quarto.org/docs/websites</a>.</p>
+<section id="file-description" class="level2">
+<h2 class="anchored" data-anchor-id="file-description">File description:</h2>
+<p>The India Housing Prices Data set contains 2.5 lakh rows and 23 columns, offering detailed insights into housing market trends across various Indian states. It includes attributes related to property types, pricing, location, and amenities, making it suitable for analysis ranging from basic descriptive statistics to advanced machine learning applications.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span> <span class="sc">+</span> <span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">=</span> <span class="fu">read.csv</span>(<span class="at">file =</span> <span class="st">"D:/MTTS STDSMLAI/Indian_House_Pricing_Project/india_housing_prices.csv"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>              <span class="at">header =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#head(dt,n=3)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 250000     23</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "ID"                             "State"                         
+ [3] "City"                           "Locality"                      
+ [5] "Property_Type"                  "BHK"                           
+ [7] "Size_in_SqFt"                   "Price_in_Lakhs"                
+ [9] "Price_per_SqFt"                 "Year_Built"                    
+[11] "Furnished_Status"               "Floor_No"                      
+[13] "Total_Floors"                   "Age_of_Property"               
+[15] "Nearby_Schools"                 "Nearby_Hospitals"              
+[17] "Public_Transport_Accessibility" "Parking_Space"                 
+[19] "Security"                       "Amenities"                     
+[21] "Facing"                         "Owner_Type"                    
+[23] "Availability_Status"           </code></pre>
+</div>
+</div>
+</section>
+<section id="column-description" class="level2">
+<h2 class="anchored" data-anchor-id="column-description">Column Description</h2>
+<p>Some understanding from our Data set</p>
+<ul>
+<li><p><strong>ID</strong>: Different rows having different Integer values</p></li>
+<li><p><strong>State</strong>: Name of States of India ( character )</p></li>
+<li><p><strong>City</strong>: Name of Cities ( character )</p></li>
+<li><p><strong>Locality</strong>: Name of Localities ( character )</p></li>
+<li><p><strong>Property_Type</strong>: 3 types of property. ( Apartment, Independent House, Villa )</p></li>
+<li><p><strong>BHK</strong>: 5 varieties are there. ( 1,2,3,4,5)</p></li>
+<li><p><strong>Size_in_sqFt</strong>: Plot size in Sqft. ( integer )</p></li>
+<li><p><strong>Price_in_Lakhs</strong>: House price in Lakhs ( Double )</p></li>
+<li><p><strong>Price_per_SqFt</strong>: House price per Sqft. ( Double )</p></li>
+<li><p><strong>Year_Built</strong>: Year of built. ( integer )</p></li>
+<li><p><strong>Furnished_Status</strong>: Furnished Status ( Furnished, Unfurnished, Semi-furnished )</p></li>
+<li><p><strong>Floor_No</strong>: Floor No ( Integer )</p></li>
+<li><p><strong>Total_Floors</strong>: Total floor in the house ( Integer )</p></li>
+<li><p><strong>Age_of_Property</strong>: Age of property ( Integer )</p></li>
+<li><p><strong>Nearby_Schools</strong>: No.&nbsp;of nearby schools. ( Integer )</p></li>
+<li><p><strong>Nearby_Hospitals</strong>: No.&nbsp;of nearby hospital. ( Integer )</p></li>
+<li><p><strong>Public_Transport_Accessibility</strong>: Chance of getting Public Transportation (High, Low, Medium )</p></li>
+<li><p><strong>Parking_Space</strong>: Parking Space present or not ( Yes, No )</p></li>
+<li><p><strong>Security</strong>: ( Yes, No )</p></li>
+<li><p><strong>Amenities</strong>: Amenities like: Playground, Gym, Pool, etc.</p></li>
+<li><p><strong>Facing</strong>: House Facing in which Direction ( East, West, South, North )</p></li>
+<li><p><strong>Owner_Type</strong>: Type of owner ( Owner, Builder, Broker )</p></li>
+<li><p><strong>Availability_Status</strong>: Status of availability ( Ready_to_move, Under_construction )</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(dt<span class="sc">$</span>Availability_Status)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "character"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(dt<span class="sc">$</span>Availability_Status))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 2</code></pre>
 </div>
 </div>
-<p>rttt</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dt<span class="sc">$</span>Size_in_SqFt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+    500    1623    2747    2750    3874    5000 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dt<span class="sc">$</span>Size_in_SqFt,<span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Size of the Property"</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Distribution of Property Sizes"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Size (sq ft)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dt<span class="sc">$</span>Size_in_SqFt, <span class="at">breaks =</span> <span class="dv">30</span>,<span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">main=</span><span class="st">"Distribution of Property Sizes"</span>, </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Size (sq ft)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dt<span class="sc">$</span>Price_in_Lakhs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   10.0   132.6   253.9   254.6   376.9   500.0 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>val <span class="ot">=</span> dt<span class="sc">$</span>Price_in_Lakhs<span class="sc">/</span><span class="dv">10</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(val)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1.00   13.26   25.39   25.46   37.69   50.00 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dt<span class="sc">$</span>Price_in_Lakhs,<span class="at">horizontal =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Price of the Property"</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Distribution of Property prices"</span>,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Price (Lakhs)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(dt<span class="sc">$</span>Price_in_Lakhs, <span class="at">breaks =</span> <span class="dv">20</span>,<span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>       <span class="at">main=</span><span class="st">"Distribution of Property Prices"</span>, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab=</span><span class="st">"Price (Lakhs)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dt<span class="sc">$</span>Price_per_SqFt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+ 0.0000  0.0500  0.0900  0.1306  0.1600  0.9900 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">boxplot</span>(dt<span class="sc">$</span>Price_per_SqFt,<span class="at">horizontal =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">main =</span> <span class="st">"Price per SqFt of the Property"</span>,</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Distribution of Property prices per SqFt"</span>,</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Price (per SqFt)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>( dt<span class="sc">$</span>Price_per_SqFt, <span class="at">breaks =</span> <span class="dv">30</span>,</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">main=</span><span class="st">"Distribution of Property prices per SqFt"</span>, </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab=</span><span class="st">"Price (per SqFt)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p>The data is <strong>positively skewed (right-skewed).</strong></p></li>
+<li><p>The majority of the property prices are clustered at the lower end of the scale (between 0.0 and 0.2).</p></li>
+<li><p>here is a long tail extending toward the right. This indicates that while most properties are relatively affordable (on this scale), there are a few properties with significantly higher prices per square foot.</p></li>
+</ul>
+</section>
+<section id="observation-from-data" class="level2">
+<h2 class="anchored" data-anchor-id="observation-from-data">Observation From Data</h2>
+<section id="pricing" class="level3">
+<h3 class="anchored" data-anchor-id="pricing">Pricing</h3>
+<ul>
+<li><strong>Price_in_Lakhs = Size_in_SqFt × Price_per_SqFt</strong>&nbsp;+ (Some dynamic Charge/ Discount )</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>Price_diff <span class="ot">&lt;-</span> dt<span class="sc">$</span>Price_in_Lakhs <span class="sc">-</span> (dt<span class="sc">$</span>Size_in_SqFt <span class="sc">*</span> dt<span class="sc">$</span>Price_per_SqFt)</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="fu">typeof</span>(dt<span class="sc">$</span>Size_in_SqFt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "integer"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pos_price_diff <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">round</span>(Price_diff,<span class="dv">4</span>) <span class="sc">&gt;</span> <span class="fl">0.0</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>no_price_diff <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">round</span>(Price_diff,<span class="dv">2</span>) <span class="sc">==</span> <span class="fl">0.0</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>neg_price_diff <span class="ot">=</span> <span class="fu">sum</span>(<span class="fu">round</span>(Price_diff,<span class="dv">4</span>) <span class="sc">&lt;</span> <span class="fl">0.0</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>((pos_price_diff<span class="sc">+</span>no_price_diff<span class="sc">+</span>neg_price_diff))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 250000</code></pre>
+</div>
+</div>
+<p>50.29% data have more price than the equation.</p>
+<p>49.65% data having less price than the equation.</p>
+<p>And 0.05% data having exactly same value.</p>
+</section>
+<section id="locality" class="level3">
+<h3 class="anchored" data-anchor-id="locality">Locality</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'dplyr' was built under R version 4.5.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>locality_summary <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">localities =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(Locality), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">no_localities =</span> <span class="fu">length</span>(<span class="fu">unique</span>(Locality))</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(locality_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 42 × 3
+   City        localities                                          no_localities
+   &lt;chr&gt;       &lt;chr&gt;                                                       &lt;int&gt;
+ 1 Ahmedabad   Locality_74, Locality_387, Locality_382, Locality_…           500
+ 2 Amritsar    Locality_466, Locality_372, Locality_145, Locality…           500
+ 3 Bangalore   Locality_462, Locality_125, Locality_498, Locality…           500
+ 4 Bhopal      Locality_305, Locality_412, Locality_121, Locality…           500
+ 5 Bhubaneswar Locality_120, Locality_491, Locality_350, Locality…           500
+ 6 Bilaspur    Locality_490, Locality_241, Locality_74, Locality_…           500
+ 7 Chennai     Locality_84, Locality_143, Locality_398, Locality_…           500
+ 8 Coimbatore  Locality_254, Locality_103, Locality_139, Locality…           500
+ 9 Cuttack     Locality_180, Locality_305, Locality_164, Locality…           500
+10 Dehradun    Locality_50, Locality_353, Locality_314, Locality_…           500
+# ℹ 32 more rows</code></pre>
+</div>
+</div>
+<p>After grouping by state and city, By random check i see that Locality_463 is present in Ahmadabad and Bhopal.</p>
+<p>Now i do a quick search to find in which cities it is present.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>dt <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Locality <span class="sc">==</span> <span class="st">"Locality_463"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">distinct</span>(City)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>             City
+1          Bhopal
+2       Ahmedabad
+3          Jaipur
+4       Hyderabad
+5         Silchar
+6          Mysore
+7      Jamshedpur
+8        Guwahati
+9  Vishakhapatnam
+10       Dehradun
+11       Bilaspur
+12     Coimbatore
+13       Durgapur
+14     Vijayawada
+15      New Delhi
+16        Gurgaon
+17      Mangalore
+18      Bangalore
+19           Pune
+20       Ludhiana
+21         Indore
+22     Trivandrum
+23        Kolkata
+24       Amritsar
+25      Faridabad
+26        Chennai
+27        Cuttack
+28         Mumbai
+29    Bhubaneswar
+30          Surat
+31          Noida
+32         Dwarka
+33          Kochi
+34       Warangal
+35         Ranchi
+36           Gaya
+37         Raipur
+38          Patna
+39        Lucknow
+40       Haridwar
+41         Nagpur
+42        Jodhpur</code></pre>
+</div>
+</div>
+<p>It gives that it is present under 42 cities.</p>
+<p><strong>Each city has 500 localities .</strong></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(dt<span class="sc">$</span>Locality))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 500</code></pre>
+</div>
+</div>
+<p>Also there are 500 localities in total. Then the common guess is that all 500 localities are common in all cities.</p>
+</section>
+<section id="year-built" class="level3">
+<h3 class="anchored" data-anchor-id="year-built">Year Built</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">unique</span>(<span class="fu">sort</span>(dt<span class="sc">$</span>Year_Built)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 34</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(dt<span class="sc">$</span>Year_Built)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+   1990    1998    2007    2007    2015    2023 </code></pre>
+</div>
+</div>
+</section>
+<section id="city" class="level3">
+<h3 class="anchored" data-anchor-id="city">City</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#State wise city count</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>City_summary <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(State) <span class="sc">%&gt;%</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Cities =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(City), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">no_cities =</span> <span class="fu">length</span>(<span class="fu">unique</span>(City))</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="bhk" class="level3">
+<h3 class="anchored" data-anchor-id="bhk">BHK</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>BHK_summary <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(State) <span class="sc">%&gt;%</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">BHKs =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(BHK), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">no_BHK =</span> <span class="fu">length</span>(<span class="fu">unique</span>(BHK))</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All States have all type of BHK options.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>BHK_summary2 <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">BHKs =</span> <span class="fu">paste</span>(<span class="fu">unique</span>(BHK), <span class="at">collapse =</span> <span class="st">", "</span>),</span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">no_BHK =</span> <span class="fu">length</span>(<span class="fu">unique</span>(BHK))</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Also, all cities have all BHK options.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>BHK_summary3 <span class="ot">&lt;-</span>dt <span class="sc">%&gt;%</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count_5bhk =</span> <span class="fu">sum</span>(BHK <span class="sc">==</span> <span class="st">"5"</span>, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="property" class="level3">
+<h3 class="anchored" data-anchor-id="property">Property</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Counting of properties each States have</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>Property_list <span class="ot">=</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count_prop =</span> <span class="fu">length</span>(<span class="fu">unique</span>(ID)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Rechecking the sum of the count column is matching or not!</span></span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>Property_list <span class="sc">%&gt;%</span></span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(count_prop, sum, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: There was 1 warning in `summarise()`.
+ℹ In argument: `across(count_prop, sum, na.rm = TRUE)`.
+Caused by warning:
+! The `...` argument of `across()` is deprecated as of dplyr 1.1.0.
+Supply arguments directly to `.fns` through an anonymous function instead.
+
+  # Previously
+  across(a:b, mean, na.rm = TRUE)
+
+  # Now
+  across(a:b, \(x) mean(x, na.rm = TRUE))</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  count_prop
+       &lt;int&gt;
+1     250000</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>Property_list<span class="sc">$</span>City[<span class="fu">which.max</span>(Property_list<span class="sc">$</span>count_prop)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Coimbatore"</code></pre>
+</div>
+</div>
+<p>So, Coimbatore has maximum properties.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>city_prop_type<span class="ot">=</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(City) <span class="sc">%&gt;%</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">count_prop_type =</span> <span class="fu">length</span>(<span class="fu">unique</span>(Property_Type)))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All cities have all the 3 varieties of property.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Property type wise Average Price</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>Price_per_prop<span class="ot">=</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Property_Type <span class="sc">+</span> Availability_Status, <span class="at">data =</span> dt, <span class="at">FUN =</span> mean)</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>Price_per_prop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Property_Type Availability_Status Price_in_Lakhs
+1         Apartment       Ready_to_Move       254.9925
+2 Independent House       Ready_to_Move       255.8287
+3             Villa       Ready_to_Move       254.1354
+4         Apartment  Under_Construction       254.2484
+5 Independent House  Under_Construction       254.9224
+6             Villa  Under_Construction       253.4039</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Property type wise Average Price per SqFt</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>Price_per_sqft_prop<span class="ot">=</span> <span class="fu">aggregate</span>(Price_per_SqFt <span class="sc">~</span> Property_Type <span class="sc">+</span> Availability_Status, <span class="at">data =</span> dt, <span class="at">FUN =</span> median)</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>Price_per_sqft_prop</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Property_Type Availability_Status Price_per_SqFt
+1         Apartment       Ready_to_Move           0.09
+2 Independent House       Ready_to_Move           0.09
+3             Villa       Ready_to_Move           0.09
+4         Apartment  Under_Construction           0.09
+5 Independent House  Under_Construction           0.09
+6             Villa  Under_Construction           0.09</code></pre>
+</div>
+</div>
+</section>
+<section id="year-wise-price-change-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="year-wise-price-change-analysis">Year Wise Price Change Analysis</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>data_1990 <span class="ot">=</span> dt[dt<span class="sc">$</span>Year_Built <span class="sc">==</span> <span class="dv">1990</span>,]</span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_1990<span class="sc">$</span>Price_in_Lakhs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  10.17  134.41  253.09  255.83  379.80  499.50 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_1990<span class="sc">$</span>Price_in_Lakhs,<span class="at">breaks =</span> <span class="dv">30</span>,<span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"Distribution of Property prices in 1990"</span>, </span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab=</span><span class="st">"Price (in Lakhs)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-24-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb61"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a>data_1991 <span class="ot">=</span> dt[dt<span class="sc">$</span>Year_Built <span class="sc">==</span> <span class="dv">1991</span>,]</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(data_1991<span class="sc">$</span>Price_in_Lakhs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  10.01  129.83  248.38  251.39  374.07  499.98 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a><span class="fu">hist</span>(data_1991<span class="sc">$</span>Price_in_Lakhs,<span class="at">breaks =</span> <span class="dv">30</span>,<span class="at">probability =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">main=</span><span class="st">"Distribution of Property prices in 1991"</span>, </span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">xlab=</span><span class="st">"Price (in Lakhs)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-25-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Kind of same summary are there for these two years.</li>
+<li></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the yearly statistics</span></span>
+<span id="cb64-2"><a href="#cb64-2" aria-hidden="true" tabindex="-1"></a>yearly_mean <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built, <span class="at">data =</span> dt, <span class="at">FUN =</span> mean)</span>
+<span id="cb64-3"><a href="#cb64-3" aria-hidden="true" tabindex="-1"></a>yearly_min  <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built, <span class="at">data =</span> dt, <span class="at">FUN =</span> min)</span>
+<span id="cb64-4"><a href="#cb64-4" aria-hidden="true" tabindex="-1"></a>yearly_max  <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built, <span class="at">data =</span> dt, <span class="at">FUN =</span> max)</span>
+<span id="cb64-5"><a href="#cb64-5" aria-hidden="true" tabindex="-1"></a>yearly_median <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built, <span class="at">data =</span> dt, <span class="at">FUN =</span> median)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><div class="cell">
+<div class="sourceCode cell-code" id="cb65"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">1</span>), <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">4</span>, <span class="dv">2</span>, <span class="dv">1</span>))</span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the initial plot with the Max </span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. The Maximum line (Dashed red)</span></span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(<span class="at">x =</span> yearly_max<span class="sc">$</span>Year_Built, yearly_max<span class="sc">$</span>Price_in_Lakhs, </span>
+<span id="cb65-5"><a href="#cb65-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">col =</span> <span class="st">"red"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">pch =</span> <span class="dv">18</span>,</span>
+<span id="cb65-6"><a href="#cb65-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">"Year Built"</span>, </span>
+<span id="cb65-7"><a href="#cb65-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Price (in Lakhs)"</span>,</span>
+<span id="cb65-8"><a href="#cb65-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Yearly Price Trends: Max"</span>)</span>
+<span id="cb65-9"><a href="#cb65-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-10"><a href="#cb65-10" aria-hidden="true" tabindex="-1"></a><span class="co"># 2.Add The mean line</span></span>
+<span id="cb65-11"><a href="#cb65-11" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yearly_mean<span class="sc">$</span>Year_Built, yearly_mean<span class="sc">$</span>Price_in_Lakhs, </span>
+<span id="cb65-12"><a href="#cb65-12" aria-hidden="true" tabindex="-1"></a>     <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb65-13"><a href="#cb65-13" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb65-14"><a href="#cb65-14" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb65-15"><a href="#cb65-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year Built"</span>, </span>
+<span id="cb65-16"><a href="#cb65-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Price (in Lakhs)"</span>,</span>
+<span id="cb65-17"><a href="#cb65-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Yearly Price Trends: Mean"</span>)</span>
+<span id="cb65-18"><a href="#cb65-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-19"><a href="#cb65-19" aria-hidden="true" tabindex="-1"></a><span class="co"># 3. Add the Minimum line (Dashed blue)</span></span>
+<span id="cb65-20"><a href="#cb65-20" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yearly_min<span class="sc">$</span>Year_Built, yearly_min<span class="sc">$</span>Price_in_Lakhs, </span>
+<span id="cb65-21"><a href="#cb65-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">type =</span> <span class="st">"o"</span>, <span class="at">col =</span> <span class="st">"blue"</span>, <span class="at">lty =</span> <span class="dv">2</span>, <span class="at">pch =</span> <span class="dv">18</span>,</span>
+<span id="cb65-22"><a href="#cb65-22" aria-hidden="true" tabindex="-1"></a>      <span class="at">xlab =</span> <span class="st">"Year Built"</span>, </span>
+<span id="cb65-23"><a href="#cb65-23" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Price (in Lakhs)"</span>,</span>
+<span id="cb65-24"><a href="#cb65-24" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Yearly Price Trends: Min"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-27-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div></li>
+<li>The Mean price fluctuates within a very narrow band (roughly between <strong>251 and 257 Lakhs</strong>). This tells us that despite individual year-to-year variations, the house price has remained historically stable for over 30 years.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>d1<span class="ot">=</span> dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status<span class="sc">==</span><span class="st">"Ready_to_Move"</span>),]</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>yearly_mean_ready <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built,<span class="at">data =</span> </span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>                                 dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status  <span class="sc">==</span><span class="st">"Ready_to_Move"</span>), ], <span class="at">FUN =</span> mean)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yearly_mean_ready,  <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year Built"</span>, </span>
+<span id="cb66-8"><a href="#cb66-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Price (in Lakhs)"</span>,</span>
+<span id="cb66-9"><a href="#cb66-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Yearly Price Trends: Ready_to_Move vs Under_Construction"</span>)</span>
+<span id="cb66-10"><a href="#cb66-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-11"><a href="#cb66-11" aria-hidden="true" tabindex="-1"></a><span class="co">#For Under_Construction House</span></span>
+<span id="cb66-12"><a href="#cb66-12" aria-hidden="true" tabindex="-1"></a>yearly_mean_cons <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built,<span class="at">data =</span> </span>
+<span id="cb66-13"><a href="#cb66-13" aria-hidden="true" tabindex="-1"></a>                                 dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status  <span class="sc">==</span><span class="st">"Under_Construction"</span>), ], <span class="at">FUN =</span> mean)</span>
+<span id="cb66-14"><a href="#cb66-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yearly_mean_cons,  <span class="at">lty=</span><span class="dv">2</span>, <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb66-15"><a href="#cb66-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb66-16"><a href="#cb66-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb66-17"><a href="#cb66-17" aria-hidden="true" tabindex="-1"></a><span class="co">#For average Price line</span></span>
+<span id="cb66-18"><a href="#cb66-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yearly_mean<span class="sc">$</span>Year_Built, yearly_mean<span class="sc">$</span>Price_in_Lakhs,<span class="at">lty =</span> <span class="dv">3</span>, <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb66-19"><a href="#cb66-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb66-20"><a href="#cb66-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb66-21"><a href="#cb66-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-22"><a href="#cb66-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Legend</span></span>
+<span id="cb66-23"><a href="#cb66-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, </span>
+<span id="cb66-24"><a href="#cb66-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Ready_to_Move"</span>, <span class="st">"Under_Construction"</span>, <span class="st">"Mean Price"</span>),</span>
+<span id="cb66-25"><a href="#cb66-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"darkgreen"</span>, <span class="st">"blue"</span>,<span class="st">"red"</span>), </span>
+<span id="cb66-26"><a href="#cb66-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">3</span>), </span>
+<span id="cb66-27"><a href="#cb66-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>),</span>
+<span id="cb66-28"><a href="#cb66-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-28-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Calculation for Median</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>yearly_median_ready <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built,<span class="at">data =</span> </span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>                                 dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status  <span class="sc">==</span><span class="st">"Ready_to_Move"</span>), ], <span class="at">FUN =</span> median)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yearly_mean_ready,  <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year Built"</span>, </span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Price (in Lakhs)"</span>,</span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Yearly Median Price Trends: Ready_to_Move vs Under_Construction"</span>)</span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a><span class="co">#For Under_Construction House</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a>yearly_mean_cons <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_in_Lakhs <span class="sc">~</span> Year_Built,<span class="at">data =</span> </span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a>                                 dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status  <span class="sc">==</span><span class="st">"Under_Construction"</span>), ], <span class="at">FUN =</span> median)</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yearly_mean_cons,  <span class="at">lty=</span><span class="dv">2</span>, <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a><span class="co">#For average Price line</span></span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yearly_mean<span class="sc">$</span>Year_Built, yearly_median<span class="sc">$</span>Price_in_Lakhs,<span class="at">lty =</span> <span class="dv">3</span>, <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Legend</span></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, </span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Ready_to_Move"</span>, <span class="st">"Under_Construction"</span>, <span class="st">"Median Price"</span>),</span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"darkgreen"</span>, <span class="st">"blue"</span>,<span class="st">"red"</span>), </span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">3</span>), </span>
+<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>),</span>
+<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-29-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="do">### Calculation for Median</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>yearly_median_ready <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_per_SqFt <span class="sc">~</span> Year_Built,<span class="at">data =</span> </span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>                                 dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status  <span class="sc">==</span><span class="st">"Ready_to_Move"</span>), ], <span class="at">FUN =</span> median)</span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(yearly_median_ready,  <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"darkgreen"</span>,</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Year Built"</span>, </span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"Price (per SqFt)"</span>,</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"Yearly Median Price Trends: Ready_to_Move vs Under_Construction"</span>)</span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a><span class="co">#For Under_Construction House</span></span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a>yearly_median_cons <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_per_SqFt <span class="sc">~</span> Year_Built,<span class="at">data =</span> </span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a>                                 dt[<span class="fu">which</span>(dt<span class="sc">$</span>Availability_Status  <span class="sc">==</span><span class="st">"Under_Construction"</span>), ], <span class="at">FUN =</span> median)</span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yearly_median_cons,  <span class="at">lty=</span><span class="dv">2</span>, <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"blue"</span>)</span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a><span class="co">#For Median Price line</span></span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>yearly_median_sqft <span class="ot">&lt;-</span> <span class="fu">aggregate</span>(Price_per_SqFt <span class="sc">~</span> Year_Built, <span class="at">data =</span> dt, <span class="at">FUN =</span> median)</span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a><span class="fu">lines</span>(yearly_median<span class="sc">$</span>Year_Built, yearly_median<span class="sc">$</span>Price_per_SqFt,<span class="at">lty =</span> <span class="dv">3</span>, <span class="at">type =</span> <span class="st">"o"</span>, </span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>     <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>     <span class="at">col =</span> <span class="st">"red"</span>)</span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a><span class="co">#Legend</span></span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a><span class="fu">legend</span>(<span class="st">"topleft"</span>, </span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>       <span class="at">legend =</span> <span class="fu">c</span>(<span class="st">"Ready_to_Move"</span>, <span class="st">"Under_Construction"</span>, <span class="st">"Median Price"</span>),</span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>       <span class="at">col =</span> <span class="fu">c</span>(<span class="st">"darkgreen"</span>, <span class="st">"blue"</span>,<span class="st">"red"</span>), </span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">lty =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>,<span class="dv">3</span>), </span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">pch =</span> <span class="fu">c</span>(<span class="dv">19</span>, <span class="dv">19</span>,<span class="dv">19</span>),</span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>       <span class="at">bty =</span> <span class="st">"n"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="facing-direction" class="level3">
+<h3 class="anchored" data-anchor-id="facing-direction">Facing Direction</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">barplot</span>(<span class="fu">table</span>(dt<span class="sc">$</span>Facing), </span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>        <span class="at">main =</span> <span class="st">"Property Distribution by Facing Direction"</span>,</span>
+<span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">col =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">xlab =</span> <span class="st">"Direction"</span>,</span>
+<span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">ylab =</span> <span class="st">"Number of Houses"</span>,</span>
+<span id="cb69-6"><a href="#cb69-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">las =</span> <span class="dv">2</span>) <span class="co"># las=2 makes labels vertical if they are long</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Project_files/figure-html/unnamed-chunk-31-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Counting of houses facing each Direction</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(dt<span class="sc">$</span>Facing)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+ East North South  West 
+62269 62637 62337 62757 </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co">#The average prices of houses based on their facing direction</span></span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>avg_price_summary <span class="ot">&lt;-</span> dt <span class="sc">%&gt;%</span></span>
+<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Facing) <span class="sc">%&gt;%</span></span>
+<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Average_Price =</span> <span class="fu">mean</span>(Price_in_Lakhs),</span>
+<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a>            <span class="at">Property_Count =</span> <span class="fu">n</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(Average_Price))</span>
+<span id="cb72-7"><a href="#cb72-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-8"><a href="#cb72-8" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(avg_price_summary)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 3
+  Facing Average_Price Property_Count
+  &lt;chr&gt;          &lt;dbl&gt;          &lt;int&gt;
+1 West            255.          62757
+2 North           255.          62637
+3 East            254.          62269
+4 South           254.          62337</code></pre>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
