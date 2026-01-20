@@ -4,9 +4,6 @@ project:
 
 website:
   title: "Indian_House_Pricing_Project"
-  navbar:
-    left:
-      - href: index.qmd
 
 format:
   html:
