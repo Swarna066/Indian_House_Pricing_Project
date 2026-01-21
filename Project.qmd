@@ -287,7 +287,6 @@ hist(data_1991$Price_in_Lakhs,breaks = 30,probability = TRUE,
 ```
 
 -   Kind of same summary are there for these two years.
--   
 
 ```{r}
 # Calculate the yearly statistics
@@ -450,4 +449,109 @@ avg_price_summary <- dt %>%
   arrange(desc(Average_Price))
 
 print(avg_price_summary)
+```
+
+```{r}
+# 1. Generate frequency tables for all four directions
+n_counts <- table(dt$Year_Built[dt$Facing == "North"])
+s_counts <- table(dt$Year_Built[dt$Facing == "South"])
+e_counts <- table(dt$Year_Built[dt$Facing == "East"])
+w_counts <- table(dt$Year_Built[dt$Facing == "West"])
+
+# 2. Determine the maximum count across all directions to set the Y-axis limit
+max_val <- max(c(n_counts, s_counts, e_counts, w_counts))
+
+# 3. Plot the first direction (North) to set up the window
+# We use as.numeric(names()) to get the years on the X-axis
+plot(as.numeric(names(n_counts)), as.numeric(n_counts), 
+     type = "o", 
+     col = "blue", 
+     pch = 19,
+     ylim = c(1700, max_val * 1.05), # Add 20% headroom for the legend
+     xlab = "Year Built", 
+     ylab = "Number of Houses Sold",
+     main = "Year-wise Property Sales by Facing Direction")
+
+# 4. Add the lines for the other three directions
+lines(as.numeric(names(s_counts)), as.numeric(s_counts), type = "o", col = "red", pch = 19)
+lines(as.numeric(names(e_counts)), as.numeric(e_counts), type = "o", col = "darkgreen", pch = 19)
+lines(as.numeric(names(w_counts)), as.numeric(w_counts), type = "o", col = "orange", pch = 19)
+
+# 5. Add a legend to differentiate the directions
+legend("topleft", 
+       legend = c("North", "South", "East", "West"), 
+       col = c("blue", "red", "darkgreen", "orange"), 
+       lty = 1, 
+       pch = 19, 
+       bty = "n") # Removes the legend box border for a cleaner look
+```
+
+### Age of Property
+
+```{r}
+# Calculate the age statistics
+age_mean <- aggregate(Price_in_Lakhs ~ Age_of_Property, data = dt, FUN = mean)
+age_min  <- aggregate(Price_in_Lakhs ~ Age_of_Property, data = dt, FUN = min)
+age_max  <- aggregate(Price_in_Lakhs ~ Age_of_Property, data = dt, FUN = max)
+age_median <- aggregate(Price_in_Lakhs ~ Age_of_Property, data = dt, FUN = median)
+
+plot(age_mean$Age_of_Property, age_mean$Price_in_Lakhs, 
+     type = "o", lty = 1,
+     pch = 19,
+     col = "darkgreen",
+     xlab = "Age of Property", 
+     ylab = "Price (in Lakhs)",ylim=c(246,259),
+     main = "age of property Price Trends: Mean vs Median")
+
+lines(age_median$Age_of_Property, age_median$Price_in_Lakhs, 
+     type = "o", lty = 2,
+     pch = 19,
+     col = "blue")
+
+#Legend
+legend("bottomright", 
+       legend = c("Mean", "Median"),
+       col = c("darkgreen", "blue"), 
+       lty = c(1, 2), 
+       pch = c(19, 19,19),
+       bty = "n")
+```
+
+```{r}
+
+
+```
+
+### Amenities
+
+```{r}
+# install.packages("fastDummies")
+#library(fastDummies)
+
+# split by ", " to create individual columns
+dt_expanded <- dummy_cols(dt, 
+                          select_columns = "Amenities", 
+                          split = ", ")
+
+# Optional: Remove the original 'Amenities' column if you no longer need it
+dt_expanded$Amenities <- NULL
+```
+
+Extended Dataset created.
+
+```{r}
+# Identify your amenity columns
+amenity_cols <- c("Amenities_Garden", "Amenities_Clubhouse",
+                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground") 
+
+# Sum the columns to get the count of houses for each
+amenity_counts <- colSums(dt_expanded[amenity_cols])
+
+# Create a summary table
+amenity_summary <- data.frame(
+  Amenity = names(amenity_counts),
+  Count = as.numeric(amenity_counts),
+  Percentage = round((as.numeric(amenity_counts) / nrow(dt_expanded)) * 100, 2)
+)
+print(amenity_summary)
 ```
