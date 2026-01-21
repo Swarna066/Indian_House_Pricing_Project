@@ -526,7 +526,7 @@ legend("bottomright",
 
 ```{r}
 # install.packages("fastDummies")
-#library(fastDummies)
+library(fastDummies)
 
 # split by ", " to create individual columns
 dt_expanded <- dummy_cols(dt, 
@@ -555,3 +555,5 @@ amenity_summary <- data.frame(
 )
 print(amenity_summary)
 ```
+
+## Still Working...
