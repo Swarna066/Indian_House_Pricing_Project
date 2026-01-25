@@ -1,5 +1,6 @@
 ---
-title: "Project"
+title: "Indian House Price Prediction Project"
+author: "Swarnava Kundu"
 format: html
 editor: visual
 ---
@@ -88,7 +89,7 @@ boxplot(dt$Size_in_SqFt,horizontal = TRUE,
         ylab = "Size (sq ft)")
 hist(dt$Size_in_SqFt, breaks = 30,probability = TRUE,
        main="Distribution of Property Sizes", 
-     xlab="Size (sq ft)")
+     xlab="Size (sq ft)", ylim= c(0,0.00030))
 ```
 
 ```{r}
@@ -119,7 +120,7 @@ hist( dt$Price_per_SqFt, breaks = 30,
 
 -   The majority of the property prices are clustered at the lower end of the scale (between 0.0 and 0.2).
 
--   here is a long tail extending toward the right. This indicates that while most properties are relatively affordable (on this scale), there are a few properties with significantly higher prices per square foot.
+-   Here is a long tail extending toward the right. This indicates that while most properties are relatively affordable (on this scale), there are a few properties with significantly higher prices per square foot.
 
 ## Observation From Data
 
@@ -145,6 +146,7 @@ And 0.05% data having exactly same value.
 ### Locality
 
 ```{r}
+#| warning: false
 library(dplyr)
 locality_summary <- dt %>%
   group_by(City) %>%
@@ -174,7 +176,7 @@ It gives that it is present under 42 cities.
 length(unique(dt$Locality))
 ```
 
-Also there are 500 localities in total. Then the common guess is that all 500 localities are common in all cities.
+Also there are 500 localities in total. Then the common observation is that all 500 localities are common in all cities.
 
 ### Year Built
 
@@ -236,6 +238,7 @@ Property_list = dt %>%
 ```
 
 ```{r}
+#| warning: false
 #Rechecking the sum of the count column is matching or not!
 Property_list %>%
   summarise(across(count_prop, sum, na.rm = TRUE))
@@ -274,7 +277,7 @@ data_1990 = dt[dt$Year_Built == 1990,]
 summary(data_1990$Price_in_Lakhs)
 hist(data_1990$Price_in_Lakhs,breaks = 30,probability = TRUE,
      main="Distribution of Property prices in 1990", 
-    xlab="Price (in Lakhs)")
+    xlab="Price (in Lakhs)", ylim= c(0,0.0030))
 ```
 
 ```{r}
@@ -282,7 +285,7 @@ data_1991 = dt[dt$Year_Built == 1991,]
 summary(data_1991$Price_in_Lakhs)
 hist(data_1991$Price_in_Lakhs,breaks = 30,probability = TRUE,
      main="Distribution of Property prices in 1991", 
-    xlab="Price (in Lakhs)")
+    xlab="Price (in Lakhs)" , ylim= c(0,0.0030))
 
 ```
 
@@ -325,7 +328,7 @@ yearly_median <- aggregate(Price_in_Lakhs ~ Year_Built, data = dt, FUN = median)
          main = "Yearly Price Trends: Min")
     ```
 
--   The Mean price fluctuates within a very narrow band (roughly between **251 and 257 Lakhs**). This tells us that despite individual year-to-year variations, the house price has remained historically stable for over 30 years.
+-   The Mean price fluctuates within a very narrow band (roughly between **251 and 257 Lakhs**). This tells us that despite individual year-to-year variations, the house price didn't change drastically over the years.
 
 ```{r}
 d1= dt[which(dt$Availability_Status=="Ready_to_Move"),]
@@ -368,7 +371,7 @@ plot(yearly_mean_ready,  type = "o",
      pch = 19,
      col = "darkgreen",
      xlab = "Year Built", 
-     ylab = "Price (in Lakhs)",
+     ylab = "Price (in Lakhs)",ylim= c(242,265),
      main = "Yearly Median Price Trends: Ready_to_Move vs Under_Construction")
 
 #For Under_Construction House
@@ -418,7 +421,7 @@ lines(yearly_median$Year_Built, yearly_median$Price_per_SqFt,lty = 3, type = "o"
      col = "red")
 
 #Legend
-legend("topleft", 
+legend("center", 
        legend = c("Ready_to_Move", "Under_Construction", "Median Price"),
        col = c("darkgreen", "blue","red"), 
        lty = c(1, 2,3), 
@@ -429,15 +432,25 @@ legend("topleft",
 ### Facing Direction
 
 ```{r}
-barplot(table(dt$Facing), 
+facing_counts <- table(dt$Facing)
+par(mar = c(5, 6, 4, 2),mgp = c(4, 1, 0))
+
+bp = barplot(table(dt$Facing), 
         main = "Property Distribution by Facing Direction",
         col = "steelblue",
         xlab = "Direction",
-        ylab = "Number of Houses",
-        las = 2) # las=2 makes labels vertical if they are long
+        ylab = "Number of Houses",  ylim= c(0,70000), 
+        las = 1) # las=2 makes labels vertical if they are long
 
 #Counting of houses facing each Direction
-table(dt$Facing)
+#table(dt$Facing)
+
+text(x = bp, 
+     y = facing_counts, 
+     labels = facing_counts, 
+     pos = 3, 
+     cex = 0.8, 
+     font = 2)
 ```
 
 ```{r}
@@ -501,7 +514,7 @@ plot(age_mean$Age_of_Property, age_mean$Price_in_Lakhs,
      col = "darkgreen",
      xlab = "Age of Property", 
      ylab = "Price (in Lakhs)",ylim=c(246,259),
-     main = "age of property Price Trends: Mean vs Median")
+     main = "Age of property Price Trends: Mean vs Median")
 
 lines(age_median$Age_of_Property, age_median$Price_in_Lakhs, 
      type = "o", lty = 2,
@@ -517,14 +530,10 @@ legend("bottomright",
        bty = "n")
 ```
 
-```{r}
-
-
-```
-
 ### Amenities
 
 ```{r}
+#| warning: false
 # install.packages("fastDummies")
 library(fastDummies)
 
@@ -537,15 +546,19 @@ dt_expanded <- dummy_cols(dt,
 dt_expanded$Amenities <- NULL
 ```
 
-Extended Dataset created.
+Extended Data set created.
 
 ```{r}
 # Identify your amenity columns
 amenity_cols <- c("Amenities_Garden", "Amenities_Clubhouse",
-                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground") 
+                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground","Parking_Space","Security") 
+
+# Map "Yes" to 1 and "No" to 0
+dt_expanded$Security <- ifelse(dt_expanded$Security == "Yes", 1, 0)
+dt_expanded$Parking_Space <- ifelse(dt_expanded$Parking_Space == "Yes", 1, 0)
 
 # Sum the columns to get the count of houses for each
-amenity_counts <- colSums(dt_expanded[amenity_cols])
+amenity_counts <- colSums(dt_expanded[amenity_cols], na.rm = TRUE)
 
 # Create a summary table
 amenity_summary <- data.frame(
@@ -555,5 +568,86 @@ amenity_summary <- data.frame(
 )
 print(amenity_summary)
 ```
+
+```{r}
+# amenity columns
+cols_to_compare <- c("Price_in_Lakhs", "Price_per_SqFt",
+                     "Amenities_Garden", "Amenities_Clubhouse",
+                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground")
+
+#  Calculate the matrix
+cor_matrix <- cor(dt_expanded[cols_to_compare])
+
+# Correlation Plot
+corrplot::corrplot(cor_matrix, 
+         method = "color",       # Fills the tiles with color
+         addCoef.col = "black",  # Color of the correlation coefficients
+         number.cex = 0.7,       # Scale for the numbers
+         type = "upper",         # Only shows the top triangle (cleaner look)
+         diag = FALSE)
+```
+
+-   Correlation between Amenities and prices are 0 most of the cases.
+
+```{r}
+#Price for houses with amenity pool versus those without it
+amenity_stats_pool <- aggregate(Price_in_Lakhs ~ Amenities_Pool, data = dt_expanded, 
+                           FUN = function(x) c(Mean = mean(x), 
+                                               Median = median(x), 
+                                               SD = sd(x), 
+                                               Min = min(x), 
+                                               Max = max(x)))
+
+# Convert to a readable data frame
+amenity_stats_pool <- do.call(data.frame, amenity_stats_pool)
+print(amenity_stats_pool)
+```
+
+-   Having amenity Pool and not having it , has less impact on our data.
+
+```{r}
+# Visualizing the impact of having a Gym on Price
+boxplot(Price_in_Lakhs ~ Amenities_Gym , data = dt_expanded,
+        main = "Price Distribution: Gym vs. No Gym",
+        xlab = "Gym Presence (1 = Yes, 0 = No)",
+        ylab = "Price (in Lakhs)",
+        col = c("lightgrey", "gold"))
+```
+
+-   As like Pool; having Gym has less impact. Also all the amenities has less impact.
+
+```{r}
+# Create a function to calculate stats for each amenity
+calculate_premium <- function(amenity_name) {
+  # Mean price with the amenity
+  mean_with <- mean(dt_expanded$Price_in_Lakhs[dt_expanded[[amenity_name]] == 1], na.rm = TRUE)
+  
+  # Mean price without the amenity
+  mean_without <- mean(dt_expanded$Price_in_Lakhs[dt_expanded[[amenity_name]] == 0], na.rm = TRUE)
+  
+  # Calculate Premium
+  premium_val <- mean_with - mean_without
+  premium_pct <- (premium_val / mean_without) * 100
+  
+  # Return as a data frame row
+  data.frame(
+    Amenity = amenity_name,
+    Avg_Price_With = round(mean_with, 2),
+    Avg_Price_Without = round(mean_without, 2),
+    Premium_Lakhs = round(premium_val, 2),
+    Premium_Percent = round(premium_pct, 2)
+  )
+}
+
+# 3. Apply the function to all columns and combine
+premium_table <- do.call(rbind, lapply(amenity_cols, calculate_premium))
+
+# 4. Sort by highest percentage premium
+premium_table <- premium_table[order(-premium_table$Premium_Percent), ]
+
+print(premium_table)
+```
+
+-   We can see very light impacts are their with the amenities. But Playground has negative premium. Means that it is popular in older years.
 
 ## Still Working...
