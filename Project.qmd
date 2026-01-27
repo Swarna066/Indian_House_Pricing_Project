@@ -185,18 +185,6 @@ length(unique(sort(dt$Year_Built)))
 summary(dt$Year_Built)
 ```
 
-### City
-
-```{r}
-#State wise city count
-City_summary <- dt %>%
-  group_by(State) %>%
-  summarize(
-    Cities = paste(unique(City), collapse = ", "),
-    no_cities = length(unique(City))
-  )
-```
-
 ### BHK
 
 ```{r}
@@ -432,6 +420,7 @@ legend("center",
 ### Facing Direction
 
 ```{r}
+#Counting of houses facing each Direction
 facing_counts <- table(dt$Facing)
 par(mar = c(5, 6, 4, 2),mgp = c(4, 1, 0))
 
@@ -440,10 +429,9 @@ bp = barplot(table(dt$Facing),
         col = "steelblue",
         xlab = "Direction",
         ylab = "Number of Houses",  ylim= c(0,70000), 
-        las = 1) # las=2 makes labels vertical if they are long
+        las = 1) 
 
-#Counting of houses facing each Direction
-#table(dt$Facing)
+
 
 text(x = bp, 
      y = facing_counts, 
@@ -649,5 +637,53 @@ print(premium_table)
 ```
 
 -   We can see very light impacts are their with the amenities. But Playground has negative premium. Means that it is popular in older years.
+
+### City
+
+```{r}
+#State wise city count
+State_summary <- dt %>% 
+  group_by(State) %>%  
+      summarize(Cities = paste(unique(City), collapse = ", "),
+                no_cities = length(unique(City)))
+```
+
+```{r}
+#| warning: false
+# Calculate average price per city
+city_summary <- dt %>%
+  group_by(City) %>%
+  summarise(
+    Avg_Price_Lakhs = mean(Price_in_Lakhs, na.rm = TRUE),
+    Property_Count = n()
+  )
+
+print(city_summary)
+
+library(tidygeocoder)
+
+# For finding the Lat/Long for each city automatically
+city_geo <- city_summary %>%
+  geocode(city = City, method = 'osm', lat = latitude , long = longitude)
+
+
+library(leaflet)
+
+# Create the interactive map
+leaflet(city_geo) %>%
+  addTiles() %>%  
+  addCircleMarkers(
+    lng = ~longitude, 
+    lat = ~latitude,
+    weight = 1,
+    radius = 10,
+    fillOpacity = 0.7,
+    # Popup shows city name and average price
+    popup = ~paste0("<b>City:</b> ", City, 
+                    "<br><b>Avg Price:</b> ", round(Avg_Price_Lakhs, 2), " Lakhs",
+                    "<br><b>Total Properties:</b> ", Property_Count),
+    clusterOptions = markerClusterOptions() # Enable clustering
+  )
+```
 
 ## Still Working...
