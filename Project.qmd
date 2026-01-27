@@ -319,34 +319,36 @@ yearly_median <- aggregate(Price_in_Lakhs ~ Year_Built, data = dt, FUN = median)
 -   The Mean price fluctuates within a very narrow band (roughly between **251 and 257 Lakhs**). This tells us that despite individual year-to-year variations, the house price didn't change drastically over the years.
 
 ```{r}
-d1= dt[which(dt$Availability_Status=="Ready_to_Move"),]
+#For Ready_to_Move House
 yearly_mean_ready <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Ready_to_Move"), ], FUN = mean)
-plot(yearly_mean_ready,  type = "o", 
-     pch = 19,
-     col = "darkgreen",
-     xlab = "Year Built", 
-     ylab = "Price (in Lakhs)",
-     main = "Yearly Price Trends: Ready_to_Move vs Under_Construction")
 
 #For Under_Construction House
 yearly_mean_cons <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Under_Construction"), ], FUN = mean)
-lines(yearly_mean_cons,  lty=2, type = "o", 
-     pch = 19,
-     col = "blue")
-#For average Price line
-lines(yearly_mean$Year_Built, yearly_mean$Price_in_Lakhs,lty = 3, type = "o", 
-     pch = 19,
-     col = "red")
 
-#Legend
-legend("topleft", 
-       legend = c("Ready_to_Move", "Under_Construction", "Mean Price"),
-       col = c("darkgreen", "blue","red"), 
-       lty = c(1, 2,3), 
-       pch = c(19, 19,19),
-       bty = "n")
+
+p <- plot_ly() %>%
+  # Line for Ready to Move
+  add_trace(data = yearly_mean_ready, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Ready_to_Move',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'darkgreen')) %>%
+  
+  # Line for Under Construction
+  add_trace(data = yearly_mean_cons, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Under_Construction',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'blue', dash = 'dash')) %>%
+  
+  # Line for Overall Median
+  add_trace(data = yearly_mean, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Overall Mean',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'red', dash = 'dash')) %>%
+  
+  # Layout and Axis Titles
+  layout(title = "Yearly Mean Price Trends: Ready_to_Move vs Under_Construction",
+         xaxis = list(title = "Year Built"),
+         yaxis = list(title = "Price (in Lakhs)", range = c(240, 270)),
+         hovermode = "x unified") # Shows all values when you hover over a year
+
+# Display the plot
+p
 
 
 ```
@@ -355,48 +357,50 @@ legend("topleft",
 ### Calculation for Median
 yearly_median_ready <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Ready_to_Move"), ], FUN = median)
-plot(yearly_mean_ready,  type = "o", 
-     pch = 19,
-     col = "darkgreen",
-     xlab = "Year Built", 
-     ylab = "Price (in Lakhs)",ylim= c(242,265),
-     main = "Yearly Median Price Trends: Ready_to_Move vs Under_Construction")
 
 #For Under_Construction House
-yearly_mean_cons <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
+yearly_median_cons <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Under_Construction"), ], FUN = median)
-lines(yearly_mean_cons,  lty=2, type = "o", 
-     pch = 19,
-     col = "blue")
-#For average Price line
-lines(yearly_mean$Year_Built, yearly_median$Price_in_Lakhs,lty = 3, type = "o", 
-     pch = 19,
-     col = "red")
 
-#Legend
-legend("topleft", 
-       legend = c("Ready_to_Move", "Under_Construction", "Median Price"),
-       col = c("darkgreen", "blue","red"), 
-       lty = c(1, 2,3), 
-       pch = c(19, 19,19),
-       bty = "n")
+
+p1 <- plot_ly() %>%
+  # Line for Ready to Move
+  add_trace(data = yearly_median_ready, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Ready_to_Move',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'darkgreen')) %>%
+  
+  # Line for Under Construction
+  add_trace(data = yearly_median_cons, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Under_Construction',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'blue', dash = 'dash')) %>%
+  
+  # Line for Overall Median
+  add_trace(data = yearly_median, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Overall Mean',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'red', dash = 'dash')) %>%
+  
+  # Layout and Axis Titles
+  layout(title = "Yearly Median Price Trends: Ready_to_Move vs Under_Construction",
+         xaxis = list(title = "Year Built"),
+         yaxis = list(title = "Price (in Lakhs)", range = c(240, 270)),
+         hovermode = "x unified") # Shows all values when you hover over a year
+
+# Display the plot
+p1
 
 
 ```
 
 ```{r}
 ### Calculation for Median
-yearly_median_ready <- aggregate(Price_per_SqFt ~ Year_Built,data = 
+yearly_median_sqft_ready <- aggregate(Price_per_SqFt ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Ready_to_Move"), ], FUN = median)
 plot(yearly_median_ready,  type = "o", 
      pch = 19,
      col = "darkgreen",
      xlab = "Year Built", 
      ylab = "Price (per SqFt)",
-     main = "Yearly Median Price Trends: Ready_to_Move vs Under_Construction")
+     main = "Yearly Median Price per SqFt Trends: Ready_to_Move vs Under_Construction")
 
 #For Under_Construction House
-yearly_median_cons <- aggregate(Price_per_SqFt ~ Year_Built,data = 
+yearly_median_sqft_cons <- aggregate(Price_per_SqFt ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Under_Construction"), ], FUN = median)
 
 lines(yearly_median_cons,  lty=2, type = "o", 
@@ -453,38 +457,39 @@ print(avg_price_summary)
 ```
 
 ```{r}
-# 1. Generate frequency tables for all four directions
+# Generate frequency tables for all four directions
 n_counts <- table(dt$Year_Built[dt$Facing == "North"])
 s_counts <- table(dt$Year_Built[dt$Facing == "South"])
 e_counts <- table(dt$Year_Built[dt$Facing == "East"])
 w_counts <- table(dt$Year_Built[dt$Facing == "West"])
 
-# 2. Determine the maximum count across all directions to set the Y-axis limit
+# Determine the maximum count across all directions to set the Y-axis limit
 max_val <- max(c(n_counts, s_counts, e_counts, w_counts))
 
-# 3. Plot the first direction (North) to set up the window
-# We use as.numeric(names()) to get the years on the X-axis
-plot(as.numeric(names(n_counts)), as.numeric(n_counts), 
-     type = "o", 
-     col = "blue", 
-     pch = 19,
-     ylim = c(1700, max_val * 1.05), # Add 20% headroom for the legend
-     xlab = "Year Built", 
-     ylab = "Number of Houses Sold",
-     main = "Year-wise Property Sales by Facing Direction")
 
-# 4. Add the lines for the other three directions
-lines(as.numeric(names(s_counts)), as.numeric(s_counts), type = "o", col = "red", pch = 19)
-lines(as.numeric(names(e_counts)), as.numeric(e_counts), type = "o", col = "darkgreen", pch = 19)
-lines(as.numeric(names(w_counts)), as.numeric(w_counts), type = "o", col = "orange", pch = 19)
+library(plotly)
 
-# 5. Add a legend to differentiate the directions
-legend("topleft", 
-       legend = c("North", "South", "East", "West"), 
-       col = c("blue", "red", "darkgreen", "orange"), 
-       lty = 1, 
-       pch = 19, 
-       bty = "n") # Removes the legend box border for a cleaner look
+# Prepare the data in a cleaner format
+# We create a dataframe of counts by Year and Direction
+plot_data <- dt %>%
+  group_by(Year_Built, Facing) %>%
+  summarise(Count = n(), .groups = 'drop')
+
+# Creating the interactive plot
+p <- plot_ly(plot_data, 
+             x = ~Year_Built, 
+             y = ~Count, 
+             color = ~Facing, 
+             colors = c("blue", "red", "darkgreen", "orange"),
+             type = 'scatter', 
+             mode = 'lines+markers') %>%
+  layout(title = "Year-wise Property Sales by Facing Direction",
+         xaxis = list(title = "Year Built"),
+         yaxis = list(title = "Number of Houses Sold", range = c(1700, max(plot_data$Count) + 100)),
+         legend = list(title = list(text = 'Click to Toggle Direction')))
+
+# Display the plot
+p
 ```
 
 ### Age of Property
@@ -666,24 +671,112 @@ library(tidygeocoder)
 city_geo <- city_summary %>%
   geocode(city = City, method = 'osm', lat = latitude , long = longitude)
 
+#BY default Geocode treats Vishakhapatnam as Vizag and Dwarka as
+# the ancient city  of Gujrat
+# Manually update Visakhapatnam and Dwarka coordinates in city_geo dataframe
+city_geo <- city_geo %>%
+  mutate(
+    latitude = case_when(
+      City == "Dwarka" ~ 28.5823,
+      City == "Vishakhapatnam" ~ 17.6868,
+      TRUE ~ latitude
+    ),
+    longitude = case_when(
+      City == "Dwarka" ~ 77.0500,
+      City == "Vishakhapatnam" ~ 83.2185,
+      TRUE ~ longitude
+    )
+  )
 
+#Creating interactive Map
 library(leaflet)
 
-# Create the interactive map
+pal <- colorNumeric(
+  palette = "RdYlGn",
+  domain = city_geo$Avg_Price_Lakhs,
+  reverse = TRUE
+)
+
 leaflet(city_geo) %>%
-  addTiles() %>%  
+  addTiles() %>%
   addCircleMarkers(
     lng = ~longitude, 
     lat = ~latitude,
+    radius = 5,
     weight = 1,
-    radius = 10,
-    fillOpacity = 0.7,
-    # Popup shows city name and average price
+    fillOpacity = 0.8,
+    # Apply the color palette based on the price
+    color = "white",
+    fillColor = ~pal(Avg_Price_Lakhs),
     popup = ~paste0("<b>City:</b> ", City, 
                     "<br><b>Avg Price:</b> ", round(Avg_Price_Lakhs, 2), " Lakhs",
                     "<br><b>Total Properties:</b> ", Property_Count),
-    clusterOptions = markerClusterOptions() # Enable clustering
+    clusterOptions = markerClusterOptions()
+  ) %>%
+  # Add a legend to make the colors clear
+  addLegend(
+    pal = pal, 
+    values = ~Avg_Price_Lakhs, 
+    opacity = 0.7, 
+    title = "Avg House Price (Lakhs)",
+    position = "bottomright"
   )
+
+```
+
+```{r}
+#Zone Wise Data
+
+library(dplyr)
+
+dt_zoned <- dt %>%
+  mutate(Zone = case_when(
+    City %in% c("New Delhi", "Ludhiana", "Jaipur", "Jodhpur", "Lucknow", 
+                "Dehradun", "Noida", "Faridabad", "Amritsar", "Haridwar", 
+                "Gurgaon","Dwarka") ~ "North",
+    
+    City %in% c("Chennai", "Coimbatore", "Bangalore", "Warangal", "Hyderabad", 
+                "Vishakhapatnam", "Mysore", "Vijayawada", "Trivandrum", 
+                "Kochi", "Mangalore") ~ "South",
+    
+    City %in% c("Mumbai", "Pune", "Nagpur", "Ahmedabad", "Surat") ~ "West",
+    
+    City %in% c("Kolkata", "Ranchi", "Durgapur", "Gaya", "Jamshedpur", 
+                "Patna", "Cuttack", "Bhubaneswar") ~ "East",
+    
+    City %in% c("Bhopal", "Indore", "Raipur", "Bilaspur") ~ "Central",
+    
+    City %in% c("Guwahati", "Silchar") ~ "Northeast",
+    
+    TRUE ~ "Other"
+  ))
+
+zone_summary <- dt_zoned %>%
+  group_by(Zone) %>%
+  summarise(
+    Avg_Price_Lakhs = median(Price_in_Lakhs, na.rm = TRUE),
+    House_Count = n()
+  ) %>%
+  arrange(desc(Avg_Price_Lakhs))
+
+
+bp = barplot(zone_summary$Avg_Price_Lakhs, 
+        names.arg = zone_summary$Zone, 
+        col = "darkorange",
+        main = "Average House Price by Indian Zone",
+        ylab = "Price (in Lakhs)",
+        las = 1,
+        ylim = c(0, max(zone_summary$Avg_Price_Lakhs) * 1.2))
+
+
+
+text(x = bp, 
+     y = zone_summary$Avg_Price_Lakhs, 
+     labels = round(zone_summary$Avg_Price_Lakhs, 2), 
+     pos = 3,         
+     cex = 0.9,       
+     font = 2,        
+     col = "black")
 ```
 
 ## Still Working...
