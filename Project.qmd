@@ -319,6 +319,7 @@ yearly_median <- aggregate(Price_in_Lakhs ~ Year_Built, data = dt, FUN = median)
 -   The Mean price fluctuates within a very narrow band (roughly between **251 and 257 Lakhs**). This tells us that despite individual year-to-year variations, the house price didn't change drastically over the years.
 
 ```{r}
+#| warning: false
 #For Ready_to_Move House
 yearly_mean_ready <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Ready_to_Move"), ], FUN = mean)
@@ -327,6 +328,7 @@ yearly_mean_ready <- aggregate(Price_in_Lakhs ~ Year_Built,data =
 yearly_mean_cons <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Under_Construction"), ], FUN = mean)
 
+library(plotly)
 
 p <- plot_ly() %>%
   # Line for Ready to Move
@@ -373,11 +375,11 @@ p1 <- plot_ly() %>%
             type = 'scatter', mode = 'lines+markers', line = list(color = 'blue', dash = 'dash')) %>%
   
   # Line for Overall Median
-  add_trace(data = yearly_median, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Overall Mean',
+  add_trace(data = yearly_median, x = ~Year_Built, y = ~Price_in_Lakhs, name = 'Overall Median',
             type = 'scatter', mode = 'lines+markers', line = list(color = 'red', dash = 'dash')) %>%
   
   # Layout and Axis Titles
-  layout(title = "Yearly Median Price Trends: Ready_to_Move vs Under_Construction",
+  layout(title = "Yearly Median Price Trends:<br>Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
          yaxis = list(title = "Price (in Lakhs)", range = c(240, 270)),
          hovermode = "x unified") # Shows all values when you hover over a year
@@ -392,33 +394,36 @@ p1
 ### Calculation for Median
 yearly_median_sqft_ready <- aggregate(Price_per_SqFt ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Ready_to_Move"), ], FUN = median)
-plot(yearly_median_ready,  type = "o", 
-     pch = 19,
-     col = "darkgreen",
-     xlab = "Year Built", 
-     ylab = "Price (per SqFt)",
-     main = "Yearly Median Price per SqFt Trends: Ready_to_Move vs Under_Construction")
 
 #For Under_Construction House
 yearly_median_sqft_cons <- aggregate(Price_per_SqFt ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Under_Construction"), ], FUN = median)
 
-lines(yearly_median_cons,  lty=2, type = "o", 
-     pch = 19,
-     col = "blue")
 #For Median Price line
 yearly_median_sqft <- aggregate(Price_per_SqFt ~ Year_Built, data = dt, FUN = median)
-lines(yearly_median$Year_Built, yearly_median$Price_per_SqFt,lty = 3, type = "o", 
-     pch = 19,
-     col = "red")
 
-#Legend
-legend("center", 
-       legend = c("Ready_to_Move", "Under_Construction", "Median Price"),
-       col = c("darkgreen", "blue","red"), 
-       lty = c(1, 2,3), 
-       pch = c(19, 19,19),
-       bty = "n")
+
+p2 <- plot_ly() %>%
+  # Line for Ready to Move
+  add_trace(data = yearly_median_sqft_ready, x = ~Year_Built, y = ~Price_per_SqFt, name = 'Ready_to_Move',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'darkgreen')) %>%
+  
+  # Line for Under Construction
+  add_trace(data = yearly_median_sqft_cons, x = ~Year_Built, y = ~Price_per_SqFt, name = 'Under_Construction',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'blue', dash = 'dash')) %>%
+  
+  # Line for Overall Median
+  add_trace(data = yearly_median_sqft, x = ~Year_Built, y = ~Price_per_SqFt, name = 'Overall Median',
+            type = 'scatter', mode = 'lines+markers', line = list(color = 'magenta', dash = 'dash')) %>%
+  
+  # Layout and Axis Titles
+  layout(title = "Yearly Median Price per SqFt Trends: Ready_to_Move vs Under_Construction",
+         xaxis = list(title = "Year Built"),
+         yaxis = list(title = "Price (per SqFt)", range = c(0.085,0.105)),
+         hovermode = "x unified") # Shows all values when you hover over a year
+
+# Display the plot
+p2
 ```
 
 ### Facing Direction
