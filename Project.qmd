@@ -113,7 +113,7 @@ boxplot(dt$Price_per_SqFt,horizontal = TRUE,
         ylab = "Price (per SqFt)")
 hist( dt$Price_per_SqFt, breaks = 30,
     main="Distribution of Property prices per SqFt", 
-    xlab="Price (per SqFt)")
+    xlab="Price (per SqFt)", ylim= c(0,80000))
 ```
 
 -   The data is **positively skewed (right-skewed).**
@@ -210,9 +210,8 @@ BHK_summary2 <- dt %>%
 Also, all cities have all BHK options.
 
 ```{r}
-BHK_summary3 <-dt %>%
-  group_by(City) %>%
-  summarise(count_5bhk = sum(BHK == "5", na.rm = TRUE))
+#Percentage distribution of BHK 
+prop.table(table(dt$BHK)) * 100
 ```
 
 ### Property
@@ -542,6 +541,7 @@ dt_expanded <- dummy_cols(dt,
 
 # Optional: Remove the original 'Amenities' column if you no longer need it
 dt_expanded$Amenities <- NULL
+
 ```
 
 Extended Data set created.
@@ -554,6 +554,9 @@ amenity_cols <- c("Amenities_Garden", "Amenities_Clubhouse",
 # Map "Yes" to 1 and "No" to 0
 dt_expanded$Security <- ifelse(dt_expanded$Security == "Yes", 1, 0)
 dt_expanded$Parking_Space <- ifelse(dt_expanded$Parking_Space == "Yes", 1, 0)
+
+# Create the Total_Amm column by summing row-wise
+dt_expanded$Total_Amm <- rowSums(dt_expanded[amenity_cols], na.rm = TRUE)
 
 # Sum the columns to get the count of houses for each
 amenity_counts <- colSums(dt_expanded[amenity_cols], na.rm = TRUE)
@@ -571,7 +574,7 @@ print(amenity_summary)
 # amenity columns
 cols_to_compare <- c("Price_in_Lakhs", "Price_per_SqFt",
                      "Amenities_Garden", "Amenities_Clubhouse",
-                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground")
+                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground", "Total_Amm")
 
 #  Calculate the matrix
 cor_matrix <- cor(dt_expanded[cols_to_compare])
@@ -583,9 +586,11 @@ corrplot::corrplot(cor_matrix,
          number.cex = 0.7,       # Scale for the numbers
          type = "upper",         # Only shows the top triangle (cleaner look)
          diag = FALSE)
+
 ```
 
 -   Correlation between Amenities and prices are 0 most of the cases.
+-   Correlation between Total Ammenities count and price is **0.001028.**
 
 ```{r}
 #Price for houses with amenity pool versus those without it
@@ -615,6 +620,7 @@ boxplot(Price_in_Lakhs ~ Amenities_Gym , data = dt_expanded,
 -   As like Pool; having Gym has less impact. Also all the amenities has less impact.
 
 ```{r}
+
 # Create a function to calculate stats for each amenity
 calculate_premium <- function(amenity_name) {
   # Mean price with the amenity
@@ -659,7 +665,6 @@ State_summary <- dt %>%
 ```
 
 ```{r}
-#| warning: false
 # Calculate average price per city
 city_summary <- dt %>%
   group_by(City) %>%
@@ -730,6 +735,65 @@ leaflet(city_geo) %>%
 ```
 
 ```{r}
+# Calculate average price per city
+city_summary <- dt %>%
+  group_by(City) %>%
+  summarise(
+    Median_Price_Lakhs = median(Price_in_Lakhs, na.rm = TRUE),
+    Avg_Price_Lakhs = mean(Price_in_Lakhs, na.rm = TRUE),
+    Property_Count = n(),
+    # Calculate percentages for each direction
+    Pct_North = round(mean(Facing == "North", na.rm = TRUE) * 100, 1),
+    Pct_South = round(mean(Facing == "South", na.rm = TRUE) * 100, 1),
+    Pct_East  = round(mean(Facing == "East", na.rm = TRUE) * 100, 1),
+    Pct_West  = round(mean(Facing == "West", na.rm = TRUE) * 100, 1)
+  )
+
+city_geo$Median_Price_Lakhs = city_summary$Median_Price_Lakhs
+city_geo <- city_geo %>%
+  select(City, latitude, longitude,) %>% # Keep only geo columns from the old city_geo
+  left_join(city_summary, by = "City")
+
+#Creating interactive Map
+library(leaflet)
+
+pal <- colorNumeric(
+  palette = "RdYlGn",
+  domain = city_geo$Median_Price_Lakhs,
+  reverse = TRUE
+)
+
+leaflet(city_geo) %>%
+  addTiles() %>%
+  addCircleMarkers(
+    lng = ~longitude, 
+    lat = ~latitude,
+    radius = 5,
+    weight = 1,
+    fillOpacity = 0.8,
+    # Apply the color palette based on the price
+    color = "white",
+    fillColor = ~pal(Median_Price_Lakhs),
+    popup = ~paste0("<b>City:</b> ", City, 
+                    "<br><b>Median Price:</b> ", round(Median_Price_Lakhs, 2), 
+                    " Lakhs","<br><b>Total Properties:</b> ", Property_Count,
+      "<hr style='margin: 5px 0;'>", # Add a small horizontal line
+      "<b>Facing Distribution:</b><br>",
+      "North: ", Pct_North, "% | South: ", Pct_South, "%<br>",
+      "East: ", Pct_East, "% | West: ", Pct_West, "%"),
+    clusterOptions = markerClusterOptions()
+  ) %>%
+  # Add a legend to make the colors clear
+  addLegend(
+    pal = pal, 
+    values = ~Median_Price_Lakhs, 
+    opacity = 0.7, 
+    title = "Median House Price (Lakhs)",
+    position = "bottomright"
+  )
+```
+
+```{r}
 #Zone Wise Data
 
 library(dplyr)
@@ -759,29 +823,36 @@ dt_zoned <- dt %>%
 zone_summary <- dt_zoned %>%
   group_by(Zone) %>%
   summarise(
-    Avg_Price_Lakhs = median(Price_in_Lakhs, na.rm = TRUE),
+    Median_Price_Lakhs = median(Price_in_Lakhs, na.rm = TRUE),
     House_Count = n()
   ) %>%
-  arrange(desc(Avg_Price_Lakhs))
+  arrange(desc(Median_Price_Lakhs))
 
 
-bp = barplot(zone_summary$Avg_Price_Lakhs, 
+bp = barplot(zone_summary$Median_Price_Lakhs, 
         names.arg = zone_summary$Zone, 
         col = "darkorange",
-        main = "Average House Price by Indian Zone",
+        main = "Median House Price by Indian Zone",
         ylab = "Price (in Lakhs)",
         las = 1,
-        ylim = c(0, max(zone_summary$Avg_Price_Lakhs) * 1.2))
+        ylim = c(0, max(zone_summary$Median_Price_Lakhs) * 1.2))
 
 
 
 text(x = bp, 
-     y = zone_summary$Avg_Price_Lakhs, 
-     labels = round(zone_summary$Avg_Price_Lakhs, 2), 
+     y = zone_summary$Median_Price_Lakhs, 
+     labels = round(zone_summary$Median_Price_Lakhs, 2), 
      pos = 3,         
      cex = 0.9,       
      font = 2,        
      col = "black")
+```
+
+### Schools
+
+```{r}
+cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Schools)
+cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Hospitals)
 ```
 
 ## Still Working...
