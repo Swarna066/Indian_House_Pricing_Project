@@ -74,6 +74,11 @@ Some understanding from our Data set
 -   **Availability_Status**: Status of availability ( Ready_to_move, Under_construction )
 
 ```{r}
+# Count of NAs per column
+colSums(is.na(dt))
+```
+
+```{r}
 typeof(dt$Availability_Status)
 length(unique(dt$Availability_Status))
 ```
@@ -853,6 +858,79 @@ text(x = bp,
 ```{r}
 cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Schools)
 cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Hospitals)
+```
+
+### Locality wise grouping
+
+```{r}
+#| echo: true
+locality_luxury <- dt %>%
+  group_by(Locality, City) %>%
+  summarise(
+    Avg_Price = mean(Price_in_Lakhs, na.rm = TRUE),
+    Median_Price = median(Price_in_Lakhs),
+    Sample_Size = n()
+  ) %>% # Filter out outliers with very few houses
+  arrange(desc(Median_Price)) 
+
+print(locality_luxury)
+
+# 1. Select only the necessary columns from your summary to keep the join clean
+locality_to_join <- locality_luxury %>%
+  select(Locality, City, Median_Price_Locality = Median_Price)
+
+# 2. Perform the left join
+dt_expanded <- dt_expanded %>%
+  left_join(locality_to_join, by = c("Locality", "City"))
+
+#Confirming that there are no missing values.
+sum(is.na(dt_expanded$Median_Price_Locality))
+```
+
+## Feature Engineering
+
+```{r}
+names(dt_expanded)
+names(Filter(is.character, dt_expanded))
+```
+
+```{r}
+
+#Columns: Property_Type,Furnished_Status,Facing, Owner_Type, Availability_Status.
+dt_expanded <- dummy_cols(dt_expanded, 
+                          select_columns =c( "Property_Type","Furnished_Status"
+                                             ,"Facing","Owner_Type",
+                                             "Availability_Status"), 
+                          remove_selected_columns = TRUE)
+
+
+#Column: Public_Transport_Accessibility.
+dt_expanded <- dt_expanded %>%
+  mutate(Public_Transport_Accessibility = case_when(
+    Public_Transport_Accessibility == "Low" ~ 0,
+    Public_Transport_Accessibility == "Medium" ~ 1,
+    Public_Transport_Accessibility == "High" ~ 2
+  ))
+```
+
+-   Now our Data is ready for Modelling.
+
+    ```{r}
+    #preventing data loss
+    dtm = dt_expanded
+    ```
+
+## Model Training
+
+```{r}
+
+
+
+
+```
+
+```{r}
+
 ```
 
 ## Still Working...
