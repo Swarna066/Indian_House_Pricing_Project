@@ -78,6 +78,8 @@ Some understanding from our Data set
 colSums(is.na(dt))
 ```
 
+-   There are no missing values in any columns.
+
 ```{r}
 typeof(dt$Availability_Status)
 length(unique(dt$Availability_Status))
@@ -85,7 +87,12 @@ length(unique(dt$Availability_Status))
 
 ```{r}
 summary(dt$Size_in_SqFt)
+summary(dt$Price_in_Lakhs)
 ```
+
+-   Size in Square Foot varies from 500 ft. to 5000 ft. with mean 2750 ft.
+
+-   Price in Lakhs varies from 10 lakhs to 500 lakhs with mean 254.6 lakhs.
 
 ```{r}
 boxplot(dt$Size_in_SqFt,horizontal = TRUE, 
@@ -95,6 +102,8 @@ boxplot(dt$Size_in_SqFt,horizontal = TRUE,
 hist(dt$Size_in_SqFt, breaks = 30,probability = TRUE,
        main="Distribution of Property Sizes", 
      xlab="Size (sq ft)", ylim= c(0,0.00030))
+
+
 ```
 
 ```{r}
@@ -147,6 +156,24 @@ print((pos_price_diff+no_price_diff+neg_price_diff))
 49.65% data having less price than the equation.
 
 And 0.05% data having exactly same value.
+
+```{r}
+# Predicting the Rate (Price per SqFt) instead of total Price
+rate_model <- lm(Price_per_SqFt ~ Size_in_SqFt, data = dt)
+
+# This model usually shows an R-squared of ~0.37, 
+# which is much higher than the total price models.
+summary(rate_model)
+
+# Plotting the relationship
+plot(dt$Size_in_SqFt, dt$Price_per_SqFt, 
+     pch = 16, col = rgb(0,0,1,0.1),
+     main = "Relationship: Size vs Price per SqFt",
+     xlab = "Size in SqFt", ylab = "Price per SqFt")
+abline(rate_model, col = "red", lwd = 2)
+```
+
+-   The plot displays a **strong negative non-linear relationship**, where the price per square foot drops sharply as property size increases before stabilizing for larger homes.
 
 ### Locality
 
@@ -263,6 +290,24 @@ Price_per_sqft_prop
 ```
 
 ### Year Wise Price Change Analysis
+
+```{r}
+summary(dt$Year_Built)
+```
+
+-   We got properties built between 1990 to 2023.
+
+    ```{r}
+    boxplot(Year_Built ~ Furnished_Status, 
+            data = dt, 
+            col = "lightblue", 
+            main = "Year Built vs Furnished Status",
+            xlab = "Furnished Status", 
+            ylab = "Year Built")
+
+    ```
+
+    -   **Furnished status** is also equally distributed through the years.
 
 ```{r}
 data_1990 = dt[dt$Year_Built == 1990,]
@@ -966,17 +1011,24 @@ print(head(vif_results,5))
 ```{r}
 library(caret)
 
-# 1. Split data (80% Train, 20% Test)
+
 set.seed(36)
 trainIndex <- createDataPartition(X_model$Price_in_Lakhs, p = 0.8, list = FALSE)
 train_data <- X_model[trainIndex, ]
 test_data  <- X_model[-trainIndex, ]
 
-# 2. Train the Multiple Linear Regression model
-final_lm <- lm(Price_in_Lakhs ~ ., data = train_data)
 
-# 3. View the "Coefficients"
-summary(final_lm)
+lm1 <- lm(Price_in_Lakhs ~ ., data = train_data)
+
+
+summary(lm1)
+
+```
+
+```{r}
+lm2 <- lm(Price_in_Lakhs ~ Size_in_SqFt+Price_per_SqFt , data = train_data)
+
+summary(lm2)
 ```
 
 ## Still Working...
