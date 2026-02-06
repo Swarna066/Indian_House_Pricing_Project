@@ -860,6 +860,14 @@ cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Schools)
 cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Hospitals)
 ```
 
+### Floors
+
+```{r}
+cor(dt$Floor_No,dt$Total_Floors)
+```
+
+-   We can observe that Floor No and Total Floors has significantly low correlation.
+
 ### Locality wise grouping
 
 ```{r}
@@ -890,7 +898,6 @@ sum(is.na(dt_expanded$Median_Price_Locality))
 ## Feature Engineering
 
 ```{r}
-names(dt_expanded)
 names(Filter(is.character, dt_expanded))
 ```
 
@@ -901,7 +908,8 @@ dt_expanded <- dummy_cols(dt_expanded,
                           select_columns =c( "Property_Type","Furnished_Status"
                                              ,"Facing","Owner_Type",
                                              "Availability_Status"), 
-                          remove_selected_columns = TRUE)
+                          remove_selected_columns = TRUE,
+                          remove_first_dummy = TRUE)
 
 
 #Column: Public_Transport_Accessibility.
@@ -924,13 +932,51 @@ dt_expanded <- dt_expanded %>%
 
 ```{r}
 
+library(dplyr)
+library(car)
 
-
-
+# Create the modeling dataset by dropping non-numeric and redundant columns
+X_model <- dtm %>%
+  dplyr::select(
+    -ID, -State, -City, -Locality,   # Character columns
+    -Total_Amm,                  
+    -Year_Built                       
+  )
 ```
 
-```{r}
+### Multicollinearity Check
 
+```{r}
+#| warning: false
+#  Build a preliminary model
+prelim_model <- lm(Price_in_Lakhs ~ ., data = X_model)
+
+#  Calculate VIF 
+vif_results <- data.frame(VIF = vif(prelim_model)) %>%
+  tibble::rownames_to_column("Feature")%>%
+  arrange(desc(VIF))
+
+print(head(vif_results,5))
+```
+
+-   VIF values between all columns are \<5; which tell us that now my data is mathematically dependency free.
+
+### Multiple Linear regression
+
+```{r}
+library(caret)
+
+# 1. Split data (80% Train, 20% Test)
+set.seed(36)
+trainIndex <- createDataPartition(X_model$Price_in_Lakhs, p = 0.8, list = FALSE)
+train_data <- X_model[trainIndex, ]
+test_data  <- X_model[-trainIndex, ]
+
+# 2. Train the Multiple Linear Regression model
+final_lm <- lm(Price_in_Lakhs ~ ., data = train_data)
+
+# 3. View the "Coefficients"
+summary(final_lm)
 ```
 
 ## Still Working...
