@@ -1,17 +1,15 @@
 ---
 title: "Indian House Price Prediction Project"
-author: 
-  - name: "Urbi Datta"
-    role: "Mentor"
-  - name: "Srijita Dutta, Atreya Ghoshal, Bighnesh Sahu, Sumit Jha, Swarnava Kundu"
-    role: "Students"
+author:
+  - name: "Mentor: Urbi Datta"
+  - name: "Group members: Atreya Ghoshal, Bighnesh Sahu, Srijita Datta, Sumit Jha, Swarnava Kundu"
 format: html
 editor: visual
 ---
 
 ## File description:
 
-The India Housing Prices Data set contains 2.5 lakh rows and 23 columns, offering detailed insights into housing market trends across various Indian states. It includes attributes related to property types, pricing, location, and amenities, making it suitable for analysis ranging from basic descriptive statistics to advanced machine learning applications.
+The **"India Housing Prices"** dataset contains 2.5 lakhs rows and 23 columns, offering detailed insights into housing market trends across various Indian states. It includes attributes related to - property types, pricing, location, and amenities, making it suitable for analysis ranging from basic descriptive statistics to advanced machine learning applications.
 
 ```{r}
 dt = read.csv(file = "D:/MTTS STDSMLAI/Indian_House_Pricing_Project/india_housing_prices.csv", 
@@ -27,62 +25,55 @@ dim(dt)
 colnames(dt)
 ```
 
-## Column Description
+## Columns in our dataset:
 
-Some understanding from our Data set
+Some preliminary observations of the given dataset:
 
--   **ID**: Different rows having different Integer values
+-   **ID**: Different rows having different Integer values.
 
--   **State**: Name of States of India ( character )
+-   **State**: Indian States ( character ).
 
--   **City**: Name of Cities ( character )
+-   **City**: Name of Cities ( character ).
 
--   **Locality**: Name of Localities ( character )
+-   **Locality**: Name of Localities ( character ).
 
--   **Property_Type**: 3 types of property. ( Apartment, Independent House, Villa )
+-   **Property_Type**: There are 3 types of properties - Apartment, Independent House, Villa ( character ).
 
--   **BHK**: 5 varieties are there. ( 1,2,3,4,5)
+-   **BHK**: 5 varieties are there - 1,2,3,4,5 ( integer ).
 
--   **Size_in_sqFt**: Plot size in Sqft. ( integer )
+-   **Size_in_sqFt**: Plot size in Sqft ( integer ).
 
--   **Price_in_Lakhs**: House price in Lakhs ( Double )
+-   **Price_in_Lakhs**: Price of the properties in Lakhs ( Double ).
 
--   **Price_per_SqFt**: House price per Sqft. ( Double )
+-   **Price_per_SqFt**: Price of the properties per Sqft ( Double ).
 
--   **Year_Built**: Year of built. ( integer )
+-   **Year_Built**: Year in which the property was built ( integer ).
 
--   **Furnished_Status**: Furnished Status ( Furnished, Unfurnished, Semi-furnished )
+-   **Furnished_Status**: Status of furnishing - Furnished, Unfurnished, Semi-furnished ( character ).
 
--   **Floor_No**: Floor No ( Integer )
+-   **Floor_No.**: Floor No. ( Integer ).
 
--   **Total_Floors**: Total floor in the house ( Integer )
+-   **Total_Floors**: Total no. of floors ( Integer ).
 
--   **Age_of_Property**: Age of property ( Integer )
+-   **Age_of_Property**: Age of the property ( Integer ).
 
--   **Nearby_Schools**: No. of nearby schools. ( Integer )
+-   **Nearby_Schools**: No. of schools nearby ( Integer ).
 
--   **Nearby_Hospitals**: No. of nearby hospital. ( Integer )
+-   **Nearby_Hospitals**: No. of hospitals nearby ( Integer ).
 
--   **Public_Transport_Accessibility**: Chance of getting Public Transportation (High, Low, Medium )
+-   **Public_Transport_Accessibility**: Ease of accessing public transportation - High, Low, Medium ( character ).
 
--   **Parking_Space**: Parking Space present or not ( Yes, No )
+-   **Parking_Space**: Availability of Parking space - Yes, No ( character ).
 
--   **Security**: ( Yes, No )
+-   **Security**: Proper security system - Yes, No ( character ).
 
--   **Amenities**: Amenities like: Playground, Gym, Pool, etc.
+-   **Amenities**: Amenities like: Playground, Gym, Pool, etc. ( character ).
 
--   **Facing**: House Facing in which Direction ( East, West, South, North )
+-   **Facing**: Orientation of the house - East, West, South, North ( character ).
 
--   **Owner_Type**: Type of owner ( Owner, Builder, Broker )
+-   **Owner_Type**: Type of owner - Owner, Builder, Broker ( character ).
 
--   **Availability_Status**: Status of availability ( Ready_to_move, Under_construction )
-
-```{r}
-# Count of NAs per column
-colSums(is.na(dt))
-```
-
--   There are no missing values in any columns.
+-   **Availability_Status**: Status of availability - Ready_to_move, Under_construction ( character ).
 
 ```{r}
 typeof(dt$Availability_Status)
@@ -94,18 +85,14 @@ summary(dt$Size_in_SqFt)
 summary(dt$Price_in_Lakhs)
 ```
 
--   Size in Square Foot varies from 500 ft. to 5000 ft. with mean 2750 ft.
+-   Size in square foot varies from 500 ft. to 5000 ft. with mean 2750 ft.
 
--   Price in Lakhs varies from 10 lakhs to 500 lakhs with mean 254.6 lakhs.
+-   Price in lakhs varies from 10 lakhs to 500 lakhs with mean 254.6 lakhs.
 
 ```{r}
-boxplot(dt$Size_in_SqFt,horizontal = TRUE, 
-        main = "Size of the Property",
-        xlab = "Distribution of Property Sizes",
-        ylab = "Size (sq ft)")
 hist(dt$Size_in_SqFt, breaks = 30,probability = TRUE,
-       main="Distribution of Property Sizes", 
-     xlab="Size (sq ft)", ylim= c(0,0.00030))
+       main="Distribution of properties according to sizes", 
+     xlab="Size (in sq ft)", ylim= c(0,0.00030))
 
 
 ```
@@ -116,35 +103,35 @@ val = dt$Price_in_Lakhs/10
 summary(val)
 boxplot(dt$Price_in_Lakhs,horizontal = TRUE, 
         main = "Price of the Property",
-        xlab = "Distribution of Property prices",
+        xlab = "Distribution of properties according to prices",
         ylab = "Price (Lakhs)")
 hist(dt$Price_in_Lakhs, breaks = 20,probability = TRUE,
-       main="Distribution of Property Prices", 
-     xlab="Price (Lakhs)")
+       main="Distribution of properties according to prices", 
+     xlab="Price (in Lakhs)")
 ```
 
 ```{r}
 summary(dt$Price_per_SqFt)
 boxplot(dt$Price_per_SqFt,horizontal = TRUE,
          main = "Price per SqFt of the Property",
-        xlab = "Distribution of Property prices per SqFt",
-        ylab = "Price (per SqFt)")
+        xlab = "Distribution of Property prices per sqft.",
+        ylab = "Price (per sqft)")
 hist( dt$Price_per_SqFt, breaks = 30,
-    main="Distribution of Property prices per SqFt", 
-    xlab="Price (per SqFt)", ylim= c(0,80000))
+    main="Distribution of properties w.r.t. prices per sqft.", 
+    xlab="Price (per sqft.)", ylim= c(0,80000))
 ```
 
 -   The data is **positively skewed (right-skewed).**
 
--   The majority of the property prices are clustered at the lower end of the scale (between 0.0 and 0.2).
+-   The majority of the properties are clustered at the lower end of the price scale (between 0.0 and 0.2).
 
--   Here is a long tail extending toward the right. This indicates that while most properties are relatively affordable (on this scale), there are a few properties with significantly higher prices per square foot.
+-   Here, a long tail is extending towards the right. This indicates that while most properties are relatively affordable (according to this scale), there are a few properties with significantly higher prices per square foot.
 
-## Observation From Data
+## Observations from the data
 
 ### Pricing
 
--   **Price_in_Lakhs = Size_in_SqFt × Price_per_SqFt** + (Some dynamic Charge/ Discount )
+-   **Price_in_Lakhs = Size_in_SqFt × Price_per_SqFt** + (Some dynamic charge/ discount )
 
 ```{r}
 Price_diff <- dt$Price_in_Lakhs - (dt$Size_in_SqFt * dt$Price_per_SqFt)
@@ -155,25 +142,21 @@ neg_price_diff = sum(round(Price_diff,4) < 0.0)
 print((pos_price_diff+no_price_diff+neg_price_diff))
 ```
 
-50.29% data have more price than the equation.
+50.29% of the data has prices greater than the equation.
 
-49.65% data having less price than the equation.
+49.65% of the data has prices less than the equation.
 
-And 0.05% data having exactly same value.
+0.05% of the data has exactly same value as the equation.
 
 ```{r}
-# Predicting the Rate (Price per SqFt) instead of total Price
+# Predicting the rate (Price per SqFt) instead of total price
 rate_model <- lm(Price_per_SqFt ~ Size_in_SqFt, data = dt)
-
-# This model usually shows an R-squared of ~0.37, 
-# which is much higher than the total price models.
-summary(rate_model)
 
 # Plotting the relationship
 plot(dt$Size_in_SqFt, dt$Price_per_SqFt, 
      pch = 16, col = rgb(0,0,1,0.1),
-     main = "Relationship: Size vs Price per SqFt",
-     xlab = "Size in SqFt", ylab = "Price per SqFt")
+     main = "Relationship: Size vs Price per sqft",
+     xlab = "Size in sqft", ylab = "Price per sqft")
 abline(rate_model, col = "red", lwd = 2)
 ```
 
@@ -190,13 +173,13 @@ locality_summary <- dt %>%
     localities = paste(unique(Locality), collapse = ", "),
     no_localities = length(unique(Locality))
   )
-print(locality_summary)
+print(head(locality_summary,5))
 
 ```
 
-After grouping by state and city, By random check i see that Locality_463 is present in Ahmadabad and Bhopal.
+After grouping by state and city, by checking randomly, we see that Locality_463 is present in Ahmadabad and Bhopal.
 
-Now i do a quick search to find in which cities it is present.
+Now we do a quick search to find in which cities it is present.
 
 ```{r}
 dt %>%
@@ -204,15 +187,15 @@ dt %>%
   distinct(City)
 ```
 
-It gives that it is present under 42 cities.
+-   We find that this locality is present in all of the 42 cities.
 
-**Each city has 500 localities .**
+-   **Each city has 500 localities .**
 
 ```{r}
 length(unique(dt$Locality))
 ```
 
-Also there are 500 localities in total. Then the common observation is that all 500 localities are common in all cities.
+-   There are 500 localities in total and we observe that all 500 localities are common in all the cities.
 
 ### Year Built
 
@@ -221,116 +204,135 @@ length(unique(sort(dt$Year_Built)))
 summary(dt$Year_Built)
 ```
 
+-   We have properties built between 1990 to 2023.
+
+```{r}
+# Count houses per year
+yearly_counts <- table(dt$Year_Built)
+years <- as.numeric(names(yearly_counts))
+counts <- as.vector(yearly_counts)
+
+
+plot(years, counts, 
+     type = "o", col = "darkred",pch = 16, lwd = 2,
+     main = "Houses Built per Year",xlab = "Year",ylab = "Number of Houses",
+     ylim = c(7150,7600))    
+```
+
 ### BHK
 
-```{r}
-BHK_summary <- dt %>%
-  group_by(State) %>%
-  summarize(
-    BHKs = paste(unique(BHK), collapse = ", "),
-    no_BHK = length(unique(BHK))
-  )
-```
-
-All States have all type of BHK options.
+This section examines the distribution of BHK configurations to identify the most frequently occurring housing type in the dataset.
 
 ```{r}
-BHK_summary2 <- dt %>%
-  group_by(City) %>%
-  summarize(
-    BHKs = paste(unique(BHK), collapse = ", "),
-    no_BHK = length(unique(BHK))
-  )
-```
+bhk_dist <- table(dt$BHK)
 
-Also, all cities have all BHK options.
+par(mar = c(5, 6, 4, 2),mgp = c(4, 1, 0))
+bp <- barplot(bhk_dist, main = "Distribution w.r.t. BHK", xlab = "BHK Type", 
+              ylab = "Number of Properties", 
+              col = "darkorange",ylim = c(48000, 51000),xpd = FALSE, border = "black",las = 1)                
+
+
+text(x = bp,y = bhk_dist,label = bhk_dist,pos = 3, cex = 0.9, font = 2,xpd = TRUE)      
+```
 
 ```{r}
-#Percentage distribution of BHK 
-prop.table(table(dt$BHK)) * 100
+most_common_bhk <- names(which.max(bhk_dist))
+most_common_bhk
 ```
+
+-   The results indicate that the most common BHK configuration in the dataset is **1 BHK**.
 
 ### Property
 
 ```{r}
-#Counting of properties each States have
+#Counting of properties each cities have
 Property_list = dt %>%
   group_by(City) %>%
   summarise(count_prop = length(unique(ID)))
-
-```
-
-```{r}
-#| warning: false
-#Rechecking the sum of the count column is matching or not!
-Property_list %>%
-  summarise(across(count_prop, sum, na.rm = TRUE))
+head(Property_list,5)
 ```
 
 ```{r}
 Property_list$City[which.max(Property_list$count_prop)]
 ```
 
-So, Coimbatore has maximum properties.
+-   So, **Coimbatore** has maximum properties.
 
 ```{r}
-city_prop_type= dt %>%
-  group_by(City) %>%
-  summarise(count_prop_type = length(unique(Property_Type)))
-```
-
-All cities have all the 3 varieties of property.
-
-```{r}
-# Property type wise Average Price
+# Property type wise average price
 Price_per_prop= aggregate(Price_in_Lakhs ~ Property_Type + Availability_Status, data = dt, FUN = mean)
 Price_per_prop
 ```
 
 ```{r}
-# Property type wise Average Price per SqFt
+# Property type wise average price per sqft
 Price_per_sqft_prop= aggregate(Price_per_SqFt ~ Property_Type + Availability_Status, data = dt, FUN = median)
 Price_per_sqft_prop
+```
+
+```{r}
+property_type_dist <- table(dt$Property_Type)
+
+
+par(mar = c(5, 6, 4, 2),mgp = c(4, 1, 0))
+
+bp = barplot(property_type_dist,
+        main = "Distribution of Property Types",
+        xlab = "Property Type",
+        col = "steelblue",xpd = FALSE, ylim = c(80000,88000),
+        las = 1)
+
+text(x = bp, 
+     y = property_type_dist, 
+     labels = property_type_dist, 
+     pos = 3, xpd = FALSE,
+     cex = 0.8, 
+     font = 2)
+```
+
+### Impact of Public Transport Accessibility on Property Prices
+
+```{r}
+pt_price <- aggregate(
+  Price_in_Lakhs ~ Public_Transport_Accessibility,
+  data = dt,
+  median
+)
+
+pt_price
+```
+
+### Furnished vs Unfurnished Property Prices
+
+```{r}
+furnish_price <- aggregate(
+  Price_in_Lakhs ~ Furnished_Status,
+  data = dt,median
+)
+
+furnish_price
 ```
 
 ### Year Wise Price Change Analysis
 
 ```{r}
-summary(dt$Year_Built)
-```
-
--   We got properties built between 1990 to 2023.
-
-    ```{r}
-    boxplot(Year_Built ~ Furnished_Status, 
-            data = dt, 
-            col = "lightblue", 
-            main = "Year Built vs Furnished Status",
-            xlab = "Furnished Status", 
-            ylab = "Year Built")
-
-    ```
-
-    -   **Furnished status** is also equally distributed through the years.
-
-```{r}
 data_1990 = dt[dt$Year_Built == 1990,]
 summary(data_1990$Price_in_Lakhs)
 hist(data_1990$Price_in_Lakhs,breaks = 30,probability = TRUE,
-     main="Distribution of Property prices in 1990", 
-    xlab="Price (in Lakhs)", ylim= c(0,0.0030))
+     main="Distribution of property prices in 1990", 
+    xlab="Price (in lakhs)", ylim= c(0,0.0030))
 ```
 
 ```{r}
 data_1991 = dt[dt$Year_Built == 1991,]
 summary(data_1991$Price_in_Lakhs)
 hist(data_1991$Price_in_Lakhs,breaks = 30,probability = TRUE,
-     main="Distribution of Property prices in 1991", 
-    xlab="Price (in Lakhs)" , ylim= c(0,0.0030))
+     main="Distribution of property prices in 1991", 
+    xlab="Price (in lakhs)" , ylim= c(0,0.0030))
 
 ```
 
--   Kind of same summary are there for these two years.
+-   The summary of prices for these two years are similar.
 
 ```{r}
 # Calculate the yearly statistics
@@ -344,15 +346,14 @@ yearly_median <- aggregate(Price_in_Lakhs ~ Year_Built, data = dt, FUN = median)
 
     ```{r}
     par(mfrow = c(3, 1), mar = c(4, 4, 2, 1))
-    # Create the initial plot with the Max 
-    # 1. The Maximum line (Dashed red)
+    # initial plot with the Max (red)
     plot(x = yearly_max$Year_Built, yearly_max$Price_in_Lakhs, 
           type = "o", col = "red", lty = 2, pch = 18,
           xlab = "Year Built", 
          ylab = "Price (in Lakhs)",
          main = "Yearly Price Trends: Max")
 
-    # 2.Add The mean line
+    # mean line
     plot(yearly_mean$Year_Built, yearly_mean$Price_in_Lakhs, 
          type = "o", 
          pch = 19,
@@ -361,7 +362,7 @@ yearly_median <- aggregate(Price_in_Lakhs ~ Year_Built, data = dt, FUN = median)
          ylab = "Price (in Lakhs)",
          main = "Yearly Price Trends: Mean")
 
-    # 3. Add the Minimum line (Dashed blue)
+    # Minimum line (Dashed blue)
     plot(yearly_min$Year_Built, yearly_min$Price_in_Lakhs, 
           type = "o", col = "blue", lty = 2, pch = 18,
           xlab = "Year Built", 
@@ -369,7 +370,7 @@ yearly_median <- aggregate(Price_in_Lakhs ~ Year_Built, data = dt, FUN = median)
          main = "Yearly Price Trends: Min")
     ```
 
--   The Mean price fluctuates within a very narrow band (roughly between **251 and 257 Lakhs**). This tells us that despite individual year-to-year variations, the house price didn't change drastically over the years.
+-   The mean price fluctuates within a very narrow band (roughly between **251 and 257 Lakhs**). This tells us that despite individual year-to-year variations, the house prices didn't change drastically over the years.
 
 ```{r}
 #| warning: false
@@ -399,8 +400,8 @@ p <- plot_ly() %>%
   # Layout and Axis Titles
   layout(title = "Yearly Mean Price Trends: Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
-         yaxis = list(title = "Price (in Lakhs)", range = c(240, 270)),
-         hovermode = "x unified") # Shows all values when you hover over a year
+         yaxis = list(title = "Price (in lakhs)", range = c(240, 270)),
+         hovermode = "x unified") # Shows all values when hover over a year
 
 # Display the plot
 p
@@ -409,7 +410,7 @@ p
 ```
 
 ```{r}
-### Calculation for Median
+### Calculation for median
 yearly_median_ready <- aggregate(Price_in_Lakhs ~ Year_Built,data = 
                                  dt[which(dt$Availability_Status  =="Ready_to_Move"), ], FUN = median)
 
@@ -435,7 +436,7 @@ p1 <- plot_ly() %>%
   layout(title = "Yearly Median Price Trends:<br>Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
          yaxis = list(title = "Price (in Lakhs)", range = c(240, 270)),
-         hovermode = "x unified") # Shows all values when you hover over a year
+         hovermode = "x unified") # Shows all values when hover over a year
 
 # Display the plot
 p1
@@ -473,32 +474,30 @@ p2 <- plot_ly() %>%
   layout(title = "Yearly Median Price per SqFt Trends: Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
          yaxis = list(title = "Price (per SqFt)", range = c(0.085,0.105)),
-         hovermode = "x unified") # Shows all values when you hover over a year
+         hovermode = "x unified") # Shows all values when hover over a year
 
 # Display the plot
 p2
 ```
 
-### Facing Direction
+### Orientation of the house
 
 ```{r}
 #Counting of houses facing each Direction
 facing_counts <- table(dt$Facing)
 par(mar = c(5, 6, 4, 2),mgp = c(4, 1, 0))
 
-bp = barplot(table(dt$Facing), 
-        main = "Property Distribution by Facing Direction",
+bp1 = barplot(table(dt$Facing), 
+        main = "Property distribution according to orientation",
         col = "steelblue",
         xlab = "Direction",
-        ylab = "Number of Houses",  ylim= c(0,70000), 
+        ylab = "Number of houses",  ylim= c(60000,64000),xpd = FALSE, 
         las = 1) 
 
-
-
-text(x = bp, 
+text(x = bp1, 
      y = facing_counts, 
      labels = facing_counts, 
-     pos = 3, 
+     pos = 3, xpd = FALSE,
      cex = 0.8, 
      font = 2)
 ```
@@ -527,8 +526,6 @@ max_val <- max(c(n_counts, s_counts, e_counts, w_counts))
 
 library(plotly)
 
-# Prepare the data in a cleaner format
-# We create a dataframe of counts by Year and Direction
 plot_data <- dt %>%
   group_by(Year_Built, Facing) %>%
   summarise(Count = n(), .groups = 'drop')
@@ -541,9 +538,9 @@ p <- plot_ly(plot_data,
              colors = c("blue", "red", "darkgreen", "orange"),
              type = 'scatter', 
              mode = 'lines+markers') %>%
-  layout(title = "Year-wise Property Sales by Facing Direction",
+  layout(title = "Year-wise property sales acc. to orientation",
          xaxis = list(title = "Year Built"),
-         yaxis = list(title = "Number of Houses Sold", range = c(1700, max(plot_data$Count) + 100)),
+         yaxis = list(title = "Number of houses sold", range = c(1700, max(plot_data$Count) + 100)),
          legend = list(title = list(text = 'Click to Toggle Direction')))
 
 # Display the plot
@@ -563,9 +560,9 @@ plot(age_mean$Age_of_Property, age_mean$Price_in_Lakhs,
      type = "o", lty = 1,
      pch = 19,
      col = "darkgreen",
-     xlab = "Age of Property", 
-     ylab = "Price (in Lakhs)",ylim=c(246,259),
-     main = "Age of property Price Trends: Mean vs Median")
+     xlab = "Age of property", 
+     ylab = "Price (in lakhs)",ylim=c(246,259),
+     main = "Age of property price trends: Mean vs Median")
 
 lines(age_median$Age_of_Property, age_median$Price_in_Lakhs, 
      type = "o", lty = 2,
@@ -581,6 +578,8 @@ legend("bottomright",
        bty = "n")
 ```
 
+-   There is no consistent trend showing that prices increase or decrease with the age of the property, suggesting that age alone does not explain the variation of price and more analysis is required.
+
 ### Amenities
 
 ```{r}
@@ -593,12 +592,11 @@ dt_expanded <- dummy_cols(dt,
                           select_columns = "Amenities", 
                           split = ", ")
 
-# Optional: Remove the original 'Amenities' column if you no longer need it
 dt_expanded$Amenities <- NULL
 
 ```
 
-Extended Data set created.
+Extended dataset created.
 
 ```{r}
 # Identify our amenity columns
@@ -608,9 +606,6 @@ amenity_cols <- c("Amenities_Garden", "Amenities_Clubhouse",
 # Map "Yes" to 1 and "No" to 0
 dt_expanded$Security <- ifelse(dt_expanded$Security == "Yes", 1, 0)
 dt_expanded$Parking_Space <- ifelse(dt_expanded$Parking_Space == "Yes", 1, 0)
-
-# Create the Total_Amm column by summing row-wise
-dt_expanded$Total_Amm <- rowSums(dt_expanded[amenity_cols], na.rm = TRUE)
 
 # Sum the columns to get the count of houses for each
 amenity_counts <- colSums(dt_expanded[amenity_cols], na.rm = TRUE)
@@ -625,26 +620,25 @@ print(amenity_summary)
 ```
 
 ```{r}
-# amenity columns
+# Amenity columns
 cols_to_compare <- c("Price_in_Lakhs", "Price_per_SqFt",
                      "Amenities_Garden", "Amenities_Clubhouse",
-                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground", "Total_Amm")
+                  "Amenities_Pool", "Amenities_Gym", "Amenities_Playground")
 
 #  Calculate the matrix
 cor_matrix <- cor(dt_expanded[cols_to_compare])
 
 # Correlation Plot
 corrplot::corrplot(cor_matrix, 
-         method = "color",       # Fills the tiles with color
-         addCoef.col = "black",  # Color of the correlation coefficients
-         number.cex = 0.7,       # Scale for the numbers
-         type = "upper",         # Only shows the top triangle (cleaner look)
+         method = "color",       
+         addCoef.col = "black", 
+         number.cex = 0.7,       
+         type = "upper",         
          diag = FALSE)
 
 ```
 
--   Correlation between Amenities and prices are 0 most of the cases.
--   Correlation between Total Ammenities count and price is **0.001028.**
+-   Correlation between amenities and prices is 0 in most of the cases.
 
 ```{r}
 #Price for houses with amenity pool versus those without it
@@ -660,22 +654,21 @@ amenity_stats_pool <- do.call(data.frame, amenity_stats_pool)
 print(amenity_stats_pool)
 ```
 
--   Having amenity Pool and not having it , has less impact on our data.
+-   Presence of pool has little impact on our data.
 
 ```{r}
 # Visualizing the impact of having a Gym on Price
 boxplot(Price_in_Lakhs ~ Amenities_Gym , data = dt_expanded,
-        main = "Price Distribution: Gym vs. No Gym",
-        xlab = "Gym Presence (1 = Yes, 0 = No)",
-        ylab = "Price (in Lakhs)",
+        main = "Price Distribution: Availability of Gym",
+        xlab = "Gym presence (1 = Yes, 0 = No)",
+        ylab = "Price (in lakhs)",
         col = c("lightgrey", "gold"))
 ```
 
--   As like Pool; having Gym has less impact. Also all the amenities has less impact.
+-   We observe that the availability of gym also has little impact on the prices and so do the other amenities.
 
 ```{r}
 
-# Create a function to calculate stats for each amenity
 calculate_premium <- function(amenity_name) {
   # Mean price with the amenity
   mean_with <- mean(dt_expanded$Price_in_Lakhs[dt_expanded[[amenity_name]] == 1], na.rm = TRUE)
@@ -687,7 +680,7 @@ calculate_premium <- function(amenity_name) {
   premium_val <- mean_with - mean_without
   premium_pct <- (premium_val / mean_without) * 100
   
-  # Return as a data frame row
+  
   data.frame(
     Amenity = amenity_name,
     Avg_Price_With = round(mean_with, 2),
@@ -697,16 +690,16 @@ calculate_premium <- function(amenity_name) {
   )
 }
 
-# 3. Apply the function to all columns and combine
+
 premium_table <- do.call(rbind, lapply(amenity_cols, calculate_premium))
 
-# 4. Sort by highest percentage premium
+
 premium_table <- premium_table[order(-premium_table$Premium_Percent), ]
 
 print(premium_table)
 ```
 
--   We can see very light impacts are their with the amenities. But Playground has negative premium. Means that it is popular in older years.
+-   We can observe that the presence of amenities affect the prices very little. But Playground has negative premium.
 
 ### City
 
@@ -832,7 +825,7 @@ leaflet(city_geo) %>%
                     "<br><b>Median Price:</b> ", round(Median_Price_Lakhs, 2), 
                     " Lakhs","<br><b>Total Properties:</b> ", Property_Count,
       "<hr style='margin: 5px 0;'>", # Add a small horizontal line
-      "<b>Facing Distribution:</b><br>",
+      "<b>Orientation Distribution:</b><br>",
       "North: ", Pct_North, "% | South: ", Pct_South, "%<br>",
       "East: ", Pct_East, "% | West: ", Pct_West, "%"),
     clusterOptions = markerClusterOptions()
@@ -886,10 +879,10 @@ zone_summary <- dt_zoned %>%
 bp = barplot(zone_summary$Median_Price_Lakhs, 
         names.arg = zone_summary$Zone, 
         col = "darkorange",
-        main = "Median House Price by Indian Zone",
+        main = "Median House Price by Zones",
         ylab = "Price (in Lakhs)",
-        las = 1,
-        ylim = c(0, max(zone_summary$Median_Price_Lakhs) * 1.2))
+        las = 1, xpd = FALSE,
+        ylim = c(240, 280))
 
 
 
@@ -897,10 +890,25 @@ text(x = bp,
      y = zone_summary$Median_Price_Lakhs, 
      labels = round(zone_summary$Median_Price_Lakhs, 2), 
      pos = 3,         
-     cex = 0.9,       
+     cex = 0.9, xpd = FALSE,      
      font = 2,        
      col = "black")
 ```
+
+### States with the Most Affordable Housing
+
+```{r}
+state_summary <- dt %>%
+  group_by(State) %>%
+  summarise(
+    Median_Price_Lakhs = median(Price_in_Lakhs, na.rm = TRUE),
+    Avg_Price_Lakhs = mean(Price_in_Lakhs, na.rm = TRUE),
+    Property_Count = n()
+  )%>% arrange(Median_Price_Lakhs)
+state_summary
+```
+
+-   States appearing at the top of the list offer comparatively more affordable housing options, while states toward the bottom exhibit higher average prices, often associated with stronger urban demand.
 
 ### Schools
 
@@ -915,7 +923,7 @@ cor(dt_expanded$Price_in_Lakhs, dt_expanded$Nearby_Hospitals)
 cor(dt$Floor_No,dt$Total_Floors)
 ```
 
--   We can observe that Floor No and Total Floors has significantly low correlation.
+-   We can observe that floor no. and total no. of floors have significantly low correlation.
 
 ### Locality wise grouping
 
@@ -927,16 +935,15 @@ locality_luxury <- dt %>%
     Avg_Price = mean(Price_in_Lakhs, na.rm = TRUE),
     Median_Price = median(Price_in_Lakhs),
     Sample_Size = n()
-  ) %>% # Filter out outliers with very few houses
+  ) %>% 
   arrange(desc(Median_Price)) 
 
 print(locality_luxury)
 
-# 1. Select only the necessary columns from our summary to keep the join clean
+
 locality_to_join <- locality_luxury %>%
   select(Locality, City, Median_Price_Locality = Median_Price)
 
-# 2. Perform the left join
 dt_expanded <- dt_expanded %>%
   left_join(locality_to_join, by = c("Locality", "City"))
 
@@ -973,11 +980,18 @@ dt_expanded <- dt_expanded %>%
 -   Now our Data is ready for Modelling.
 
     ```{r}
-    #preventing data loss
+    #Preventing data loss
     dtm = dt_expanded
     ```
 
 ## Model Training
+
+```{r}
+#Checking for missing values
+sum(is.na(dtm))
+```
+
+-   Our data has no missing value.
 
 ```{r}
 
@@ -988,7 +1002,6 @@ library(car)
 X_model <- dtm %>%
   dplyr::select(
     -ID, -State, -City, -Locality,   # Character columns
-    -Total_Amm,                  
     -Year_Built                       
   )
 ```
@@ -1008,7 +1021,7 @@ vif_results <- data.frame(VIF = vif(prelim_model)) %>%
 print(head(vif_results,5))
 ```
 
--   VIF values between all columns are \<5; which tell us that now my data is mathematically dependency free.
+-   VIF values of all columns are \<5; which signifies that the columns are not linearly dependent.
 
 ### Multiple Linear regression
 
@@ -1035,7 +1048,7 @@ lm2 <- lm(Price_in_Lakhs ~ Median_Price_Locality+Size_in_SqFt+Price_per_SqFt+Sec
 summary(lm2)
 ```
 
--   We tried multiple Test train ratios (p = 0.7, 0.75, 0.8, 0.9). Among them the **Average Multiple R-squared value** is 0.5103. It means **around 51% variations in the data can be explained on the basis of this Multiple Linear Regression Model.**
+-   We tried multiple Test train ratios (ratio = 0.7, 0.75, 0.8, 0.9). Among them the **Average Multiple R-squared value** is 0.5103. It means **around 51% variations in the data can be explained on the basis of this Multiple Linear Regression Model.**
 
 ```{r}
 #Checking Normal Q-Q Plot to find model's errors follow a normal distribution or not.
@@ -1044,10 +1057,7 @@ qqline(lm2$residuals, col="red")
 ```
 
 -   The points follow the red diagonal line in the middle but **"bow" significantly at both ends** (the tails).
-
-<!-- -->
-
--   **Verdict**: This "S-shape" suggests that our data has extreme outliers or a skewed distribution that a standard linear model isn't fully accounting for.
+-   **Verdict**: This "S-shape" suggests that a skewed distribution that a standard linear model isn't fully accounting for.
 
 ### Generalized Linear Model
 
@@ -1079,13 +1089,11 @@ qqnorm(glm1$residuals,main = "Normal Q-Q Plot for GLM model")
 qqline(glm1$residuals, col="magenta")
 ```
 
--   We can observe that the **GLM** is a more robust and statistically appropriate model for the Indian housing market. It successfully reduced the "unexplained" bowing that was present in our first attemption.
+-   We can observe that the **GLM** seems to be more robust and statistically appropriate model for the Indian housing market.
 
 -   We can see that in the middle section (between -2 and 2 on the x-axis), the points hug the diagonal line much more tightly than they did in the LM plot.
 
 -   While there is still some "S-shaping" at the very extreme ends, the overall "bend" is more symmetrical. This shows that the **Gamma distribution** is doing a much better job of modeling the skewed nature of real estate prices.
-
--   The GLM plot uses standardized deviance residuals (ranging from -1.0 to 1.0), which are much more stable than the raw sample quantiles used in the LM plot (which ranged from -400 to 100).
 
 ```{r}
 # Predict using both models on our test data
@@ -1096,9 +1104,9 @@ pred_glm <- predict(glm1, newdata = test_data, type = "response")
 rmse_lm  <- sqrt(mean((test_data$Price_in_Lakhs - pred_lm)^2))
 rmse_glm <- sqrt(mean((test_data$Price_in_Lakhs - pred_glm)^2))
 
-# Lower RMSE wins
-cat("LM Error:", rmse_lm, "Lakhs\n")
-cat("GLM Error:", rmse_glm, "Lakhs")
+# RMSE
+cat("LM RMSE:", rmse_lm, "Lakhs\n")
+cat("GLM RMSE:", rmse_glm, "Lakhs")
 ```
 
 -   While the **GLM** provided a better statistical fit for the non-linear relationship between size and price, it proved to be highly sensitive to outliers during prediction. The **LM**, despite violating some normality assumptions, achieved a much lower **RMSE (99.04 Lakhs)** compared to the **GLM (422.25 Lakhs)**, making it the more reliable model for actual price estimation in this dataset.
@@ -1117,20 +1125,16 @@ cat("GLM MAE:", mae_glm)
 ### Decision Tree
 
 ```{r}
-# Load necessary libraries
 library(rpart)
 library(rpart.plot)
 
-#  Fit the Decision Tree Model
-# We exclude Price_per_SqFt and ID to keep it 'honest'
 tree_model <- rpart(Price_in_Lakhs ~ Median_Price_Locality + Size_in_SqFt + 
                     Security + Property_Type_Villa, 
                     data = train_data, 
                     method = "anova",
-                    control = rpart.control(cp = 0.00001, maxdepth = 4)) # Using "anova" for regression
+                    control = rpart.control(cp = 0.00001, maxdepth = 4))
 
-#  Visualize the Tree
-# This creates a flowchart of how prices are decided
+
 prp(tree_model, extra = 1, box.palette = "RdYlGn", main = "Multi-Variable House Price Tree")
 
 ```
@@ -1175,19 +1179,17 @@ cat("Decision Tree RMSE:", rmse_tree, "Lakhs")
 #| warning: false
 library(randomForest)
 
-# 1. Take a sample for speed (optional, but recommended for 200k rows)
 set.seed(12)
 train_sample <- train_data[sample(1:nrow(train_data), 30000), ]
 
-# 2. Fit the Random Forest
-# importance = TRUE lets us see which variables actually matter
+
 rf_model <- randomForest(Price_in_Lakhs ~ Median_Price_Locality + Size_in_SqFt + 
                          Security + Property_Type_Villa, 
                          data = train_sample, 
                          ntree = 400, 
                          importance = TRUE)
 
-# 3. Predict and Calculate Error
+
 pred_rf <- predict(rf_model, newdata = test_data)
 rmse_rf <- sqrt(mean((test_data$Price_in_Lakhs - pred_rf)^2))
 mae_rf  <- mean(abs(test_data$Price_in_Lakhs - pred_rf))
@@ -1198,10 +1200,10 @@ cat("Random Forest RMSE:", rmse_rf, "Lakhs")
 
 -   <div>
 
-    ### The "Best" Model
-
-    </div>
+    <div>
 
     The **Linear Model (LM)** is the most effective tool for this dataset, achieving the lowest average error with a **Mean Absolute Error (MAE) of 79.15 Lakhs**. While more complex models like the **GLM** and **Random Forest** were explored, the LM's ability to provide stable predictions across the price spectrum makes it the most reliable "calculator" for our final results.
 
-## End of project.
+    </div>
+
+    </div>
