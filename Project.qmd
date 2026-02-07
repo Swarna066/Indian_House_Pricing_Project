@@ -1,6 +1,10 @@
 ---
 title: "Indian House Price Prediction Project"
-author: "Swarnava Kundu"
+author: 
+  - name: "Urbi Datta"
+    role: "Mentor"
+  - name: "Srijita Dutta, Atreya Ghoshal, Bighnesh Sahu, Sumit Jha, Swarnava Kundu"
+    role: "Students"
 format: html
 editor: visual
 ---
@@ -597,7 +601,7 @@ dt_expanded$Amenities <- NULL
 Extended Data set created.
 
 ```{r}
-# Identify your amenity columns
+# Identify our amenity columns
 amenity_cols <- c("Amenities_Garden", "Amenities_Clubhouse",
                   "Amenities_Pool", "Amenities_Gym", "Amenities_Playground","Parking_Space","Security") 
 
@@ -928,7 +932,7 @@ locality_luxury <- dt %>%
 
 print(locality_luxury)
 
-# 1. Select only the necessary columns from your summary to keep the join clean
+# 1. Select only the necessary columns from our summary to keep the join clean
 locality_to_join <- locality_luxury %>%
   select(Locality, City, Median_Price_Locality = Median_Price)
 
@@ -1013,7 +1017,7 @@ library(caret)
 
 
 set.seed(36)
-trainIndex <- createDataPartition(X_model$Price_in_Lakhs, p = 0.8, list = FALSE)
+trainIndex <- createDataPartition(X_model$Price_in_Lakhs, p = 0.75, list = FALSE)
 train_data <- X_model[trainIndex, ]
 test_data  <- X_model[-trainIndex, ]
 
@@ -1026,9 +1030,141 @@ summary(lm1)
 ```
 
 ```{r}
-lm2 <- lm(Price_in_Lakhs ~ Size_in_SqFt+Price_per_SqFt , data = train_data)
+lm2 <- lm(Price_in_Lakhs ~ Median_Price_Locality+Size_in_SqFt+Price_per_SqFt+Security+Property_Type_Villa , data = train_data)
 
 summary(lm2)
 ```
+
+-   We tried multiple Test train ratios (p = 0.7, 0.75, 0.8, 0.9). Among them the **Average Multiple R-squared value** is 0.5103. It means **around 51% variations in the data can be explained on the basis of this Multiple Linear Regression Model.**
+
+```{r}
+#Checking Normal Q-Q Plot to find model's errors follow a normal distribution or not.
+qqnorm(lm2$residuals)
+qqline(lm2$residuals, col="red")
+```
+
+-   The points follow the red diagonal line in the middle but **"bow" significantly at both ends** (the tails).
+
+<!-- -->
+
+-   **Verdict**: This "S-shape" suggests that our data has extreme outliers or a skewed distribution that a standard linear model isn't fully accounting for.
+
+### Generalized Linear Model
+
+```{r}
+set.seed(36)
+trainIndex <- createDataPartition(X_model$Price_in_Lakhs, p = 0.75, list = FALSE)
+train_data <- X_model[trainIndex, ]
+test_data  <- X_model[-trainIndex, ]
+
+lm2 <- lm(Price_in_Lakhs ~ Median_Price_Locality+Size_in_SqFt+Price_per_SqFt+Security+Property_Type_Villa , data = train_data)
+
+# GLM with Gamma distribution and Log Link
+glm1 <- glm(Price_in_Lakhs ~ Median_Price_Locality+Size_in_SqFt+Price_per_SqFt+Property_Type_Villa, 
+                 family = Gamma(link = "log"), 
+                 data = train_data)
+summary(glm1)
+
+
+# Comparing the AIC (Lower is better)
+AIC(lm2)
+AIC(glm1)
+```
+
+```{r}
+par(mfrow = c(1,2))
+qqnorm(lm2$residuals,main = "Normal Q-Q Plot for LM model")
+qqline(lm2$residuals, col="red")
+qqnorm(glm1$residuals,main = "Normal Q-Q Plot for GLM model")
+qqline(glm1$residuals, col="magenta")
+```
+
+-   We can observe that the **GLM** is a more robust and statistically appropriate model for the Indian housing market. It successfully reduced the "unexplained" bowing that was present in our first attemption.
+
+-    We can see that in the middle section (between -2 and 2 on the x-axis), the points hug the diagonal line much more tightly than they did in the LM plot.
+
+-   While there is still some "S-shaping" at the very extreme ends, the overall "bend" is more symmetrical. This shows that the **Gamma distribution** is doing a much better job of modeling the skewed nature of real estate prices.
+
+-   The GLM plot uses standardized deviance residuals (ranging from -1.0 to 1.0), which are much more stable than the raw sample quantiles used in the LM plot (which ranged from -400 to 100).
+
+```{r}
+# Predict using both models on our test data
+pred_lm  <- predict(lm2, newdata = test_data)
+pred_glm <- predict(glm1, newdata = test_data, type = "response")
+
+# Calculate Root Mean Squared Error (RMSE)
+rmse_lm  <- sqrt(mean((test_data$Price_in_Lakhs - pred_lm)^2))
+rmse_glm <- sqrt(mean((test_data$Price_in_Lakhs - pred_glm)^2))
+
+# Lower RMSE wins
+cat("LM Error:", rmse_lm, "Lakhs\n")
+cat("GLM Error:", rmse_glm, "Lakhs")
+```
+
+-   While the **GLM** provided a better statistical fit for the non-linear relationship between size and price, it proved to be highly sensitive to outliers during prediction. The **LM**, despite violating some normality assumptions, achieved a much lower **RMSE (99.04 Lakhs)** compared to the **GLM (422.25 Lakhs)**, making it the more reliable model for actual price estimation in this dataset.
+
+```{r}
+# Calculate Mean Absolute Error (MAE)
+mae_lm  <- mean(abs(test_data$Price_in_Lakhs - pred_lm))
+mae_glm <- mean(abs(test_data$Price_in_Lakhs - pred_glm))
+
+cat("LM MAE:", mae_lm, "\n")
+cat("GLM MAE:", mae_glm)
+```
+
+-   Our evaluation shows that while the **Linear Model (LM)** remains the most accurate with an MAE of **79.15 Lakhs**, the **GLM (Gamma)** provides a more theoretically sound fit for the data distribution. The disparity between the **GLM's RMSE (422.25)** and **MAE (128.95)** indicates that the model is performing well on the majority of the dataset but is highly sensitive to a small number of extreme luxury outliers.
+
+### Decision Tree
+
+```{r}
+# Load necessary libraries
+library(rpart)
+library(rpart.plot)
+
+#  Fit the Decision Tree Model
+# We exclude Price_per_SqFt and ID to keep it 'honest'
+tree_model <- rpart(Price_in_Lakhs ~ Median_Price_Locality + Size_in_SqFt + 
+                    Security + Property_Type_Villa, 
+                    data = train_data, 
+                    method = "anova",
+                    control = rpart.control(cp = 0.00001, maxdepth = 4)) # Using "anova" for regression
+
+#  Visualize the Tree
+# This creates a flowchart of how prices are decided
+prp(tree_model, extra = 1, box.palette = "RdYlGn", main = "Multi-Variable House Price Tree")
+
+```
+
+-    The model has determined that **Median_Price_Locality** is so dominant that it has used it for every single split in the tree, completely ignoring Size, Security, and Property Type for now.
+
+    ```{r}
+    #Extract importance scores
+    importance_scores <- tree_model$variable.importance
+
+
+    library(dplyr)
+
+    import_df <- data.frame(Importance = importance_scores) %>%
+      tibble::rownames_to_column("Feature") %>%
+      mutate(Percentage = (Importance / sum(Importance)) * 100) %>%
+      arrange(desc(Percentage))
+    import_df
+    ```
+
+    -   Our Variable Importance analysis reveals that 'Location' is the primary determinant of property value in our dataset, accounting for over 99.9% of the model's predictive power. While physical attributes like 'Size' are traditionally important, the sheer variance in price between different Indian localities makes the specific neighborhood the only statistically significant predictor for our current decision tree.
+
+```{r}
+#  Predict on Test Data
+pred_tree <- predict(tree_model, newdata = test_data)
+
+# Calculate Errors
+rmse_tree <- sqrt(mean((test_data$Price_in_Lakhs - pred_tree)^2))
+mae_tree  <- mean(abs(test_data$Price_in_Lakhs - pred_tree))
+
+cat("Decision Tree MAE:", mae_tree, "Lakhs\n")
+cat("Decision Tree RMSE:", rmse_tree, "Lakhs")
+```
+
+-   The **Decision Tree** highlights that location is the absolute driver of value, with **Median_Price_Locality** holding a **99.94% importance score**. While its higher **MAE of 115.27 Lakhs** shows it is currently less precise for individual predictions than our Linear Model.
 
 ## Still Working...
