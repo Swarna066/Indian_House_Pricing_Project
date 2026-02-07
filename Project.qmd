@@ -102,9 +102,8 @@ summary(dt$Price_in_Lakhs)
 val = dt$Price_in_Lakhs/10
 summary(val)
 boxplot(dt$Price_in_Lakhs,horizontal = TRUE, 
-        main = "Price of the Property",
-        xlab = "Distribution of properties according to prices",
-        ylab = "Price (Lakhs)")
+        main = "Distribution of properties according to prices",
+        xlab = "Price (Lakhs)")
 hist(dt$Price_in_Lakhs, breaks = 20,probability = TRUE,
        main="Distribution of properties according to prices", 
      xlab="Price (in Lakhs)")
@@ -113,9 +112,8 @@ hist(dt$Price_in_Lakhs, breaks = 20,probability = TRUE,
 ```{r}
 summary(dt$Price_per_SqFt)
 boxplot(dt$Price_per_SqFt,horizontal = TRUE,
-         main = "Price per SqFt of the Property",
-        xlab = "Distribution of Property prices per sqft.",
-        ylab = "Price (per sqft)")
+        main = "Distribution of Property prices per sqft.",
+        xlab = "Price (per sqft)")
 hist( dt$Price_per_SqFt, breaks = 30,
     main="Distribution of properties w.r.t. prices per sqft.", 
     xlab="Price (per sqft.)", ylim= c(0,80000))
@@ -279,7 +277,7 @@ par(mar = c(5, 6, 4, 2),mgp = c(4, 1, 0))
 bp = barplot(property_type_dist,
         main = "Distribution of Property Types",
         xlab = "Property Type",
-        col = "steelblue",xpd = FALSE, ylim = c(80000,88000),
+        col = "steelblue",xpd = FALSE, ylim = c(80000,86000),
         las = 1)
 
 text(x = bp, 
@@ -302,6 +300,8 @@ pt_price <- aggregate(
 pt_price
 ```
 
+-   The accessibility of public transport has minimal effect on prices.
+
 ### Furnished vs Unfurnished Property Prices
 
 ```{r}
@@ -312,6 +312,8 @@ furnish_price <- aggregate(
 
 furnish_price
 ```
+
+-   According to the data the furnishing status has minimal effect on prices.
 
 ### Year Wise Price Change Analysis
 
