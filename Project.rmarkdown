@@ -1205,3 +1205,4 @@ cat("Random Forest RMSE:", rmse_rf, "Lakhs")
     The **Linear Model (LM)** is the most effective tool for this dataset, achieving the lowest average error with a **Mean Absolute Error (MAE) of 79.15 Lakhs**. While more complex models like the **GLM** and **Random Forest** were explored, the LM's ability to provide stable predictions across the price spectrum makes it the most reliable "calculator" for our final results.
 
 ## End of project.
+
