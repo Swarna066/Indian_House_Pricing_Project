@@ -955,15 +955,15 @@ sum(is.na(dt_expanded$Median_Price_Locality))
 
 ## Hypothesis Testing
 
-## Research Statement: The prices of villas are generally higher than the apartments.
+### Research Statement: The prices of villas are generally higher than the apartments.
 
--   **NULL HYPOTHESIS**:- The average prices of the apartments are equal the prices of the villas.
+-   **NULL HYPOTHESIS**:- The average prices of the apartments are equal to the average prices of the villas.
 
--   **ALTERNATIVE HYPOTHESIS**:- The average prices of the villas are higher than the prices of the apartments.
+-   **ALTERNATIVE HYPOTHESIS**:- The average prices of the villas are higher than the average prices of the apartments.
 
--   **H0:** mean_villa = mean_apartment
+-   **H0:** mean_price_of_villa = mean_price_of_apartment
 
--   **H1:** mean \_villa \> mean_apartment
+-   **H1:** mean \_price_of_villa \> mean_price_of_apartment
 
     ```{r}
     t.test(Price_in_Lakhs ~ Property_Type,
@@ -974,11 +974,11 @@ sum(is.na(dt_expanded$Median_Price_Locality))
 
 **Interpretation**:-
 
-Here the p-values are greater than 0.05, which implies that we failed to reject the null hypothesis. Thus, based on our data-set, we cannot conclude that the prices of apartments are higher than that of villas.
+Here the p-values are greater than 0.05, which implies that we failed to reject the null hypothesis. Thus, based on our data-set, we cannot conclude that the prices of villas are higher than that of apartments.
 
-There is insufficient evidence to conclude that the average price of apartments is greater than that of villas.
+There is insufficient evidence to conclude that the average price of villas are higher than that of apartments.
 
-## Research Statement :- Do Furnished homes have more cost than the Unfurnished homes ?
+### Research Statement :- Do Furnished homes have more cost than the Unfurnished homes ?
 
 -   **NULL HYPOTHESIS**:- The furnished and unfurnished houses have the same price.
 
@@ -993,9 +993,7 @@ There is insufficient evidence to conclude that the average price of apartments 
 
 **Interpretation:**
 
-Since the p-values = 0.44 \>0.05, we fail to reject the null hypothesis.Thus, we can say that there is no significant difference between the houses which are furnished or unfurnished(based on the data)
-
-## 
+Since the p-values = 0.44 \>0.05, we fail to reject the null hypothesis. Thus, we can say that there is no significant difference between the prices of the houses which are furnished or unfurnished(based on the data).
 
 ## Feature Engineering
 
