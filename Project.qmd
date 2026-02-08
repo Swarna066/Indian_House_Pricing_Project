@@ -175,7 +175,7 @@ print(head(locality_summary,5))
 
 ```
 
-After grouping by state and city, by checking randomly, we see that Locality_463 is present in Ahmadabad and Bhopal.
+After grouping by state and city, by checking randomly, we see that Locality_463 is present in Ahmedabad and Bhopal.
 
 Now we do a quick search to find in which cities it is present.
 
@@ -321,7 +321,7 @@ furnish_price
 data_1990 = dt[dt$Year_Built == 1990,]
 summary(data_1990$Price_in_Lakhs)
 hist(data_1990$Price_in_Lakhs,breaks = 30,probability = TRUE,
-     main="Distribution of property prices in 1990", 
+     main="Distribution of prices of properties built in 1990", 
     xlab="Price (in lakhs)", ylim= c(0,0.0030))
 ```
 
@@ -329,7 +329,7 @@ hist(data_1990$Price_in_Lakhs,breaks = 30,probability = TRUE,
 data_1991 = dt[dt$Year_Built == 1991,]
 summary(data_1991$Price_in_Lakhs)
 hist(data_1991$Price_in_Lakhs,breaks = 30,probability = TRUE,
-     main="Distribution of property prices in 1991", 
+     main="Distribution of prices of properties built in 1991", 
     xlab="Price (in lakhs)" , ylim= c(0,0.0030))
 
 ```
@@ -400,7 +400,7 @@ p <- plot_ly() %>%
             type = 'scatter', mode = 'lines+markers', line = list(color = 'red', dash = 'dash')) %>%
   
   # Layout and Axis Titles
-  layout(title = "Yearly Mean Price Trends: Ready_to_Move vs Under_Construction",
+  layout(title = "Built-Year wise Mean Price Trends: Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
          yaxis = list(title = "Price (in lakhs)", range = c(240, 270)),
          hovermode = "x unified") # Shows all values when hover over a year
@@ -435,7 +435,7 @@ p1 <- plot_ly() %>%
             type = 'scatter', mode = 'lines+markers', line = list(color = 'red', dash = 'dash')) %>%
   
   # Layout and Axis Titles
-  layout(title = "Yearly Median Price Trends:<br>Ready_to_Move vs Under_Construction",
+  layout(title = "Built-Year wise Median Price Trends:<br>Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
          yaxis = list(title = "Price (in Lakhs)", range = c(240, 270)),
          hovermode = "x unified") # Shows all values when hover over a year
@@ -473,7 +473,7 @@ p2 <- plot_ly() %>%
             type = 'scatter', mode = 'lines+markers', line = list(color = 'magenta', dash = 'dash')) %>%
   
   # Layout and Axis Titles
-  layout(title = "Yearly Median Price per SqFt Trends: Ready_to_Move vs Under_Construction",
+  layout(title = "Built-Year wise Median Price per SqFt Trends: Ready_to_Move vs Under_Construction",
          xaxis = list(title = "Year Built"),
          yaxis = list(title = "Price (per SqFt)", range = c(0.085,0.105)),
          hovermode = "x unified") # Shows all values when hover over a year
@@ -1050,7 +1050,7 @@ lm2 <- lm(Price_in_Lakhs ~ Median_Price_Locality+Size_in_SqFt+Price_per_SqFt+Sec
 summary(lm2)
 ```
 
--   We tried multiple Test train ratios (ratio = 0.7, 0.75, 0.8, 0.9). Among them the **Average Multiple R-squared value** is 0.5103. It means **around 51% variations in the data can be explained on the basis of this Multiple Linear Regression Model.**
+-   We tried multiple Test-train ratios (ratio = 0.7, 0.75, 0.8, 0.9). Among them the **Average Multiple R-squared value** is 0.5103. It means **around 51% variations in the data can be explained on the basis of this Multiple Linear Regression Model.**
 
 ```{r}
 #Checking Normal Q-Q Plot to find model's errors follow a normal distribution or not.
@@ -1059,7 +1059,7 @@ qqline(lm2$residuals, col="red")
 ```
 
 -   The points follow the red diagonal line in the middle but **"bow" significantly at both ends** (the tails).
--   **Verdict**: This "S-shape" suggests that a skewed distribution that a standard linear model isn't fully accounting for.
+-   **Verdict**: This "S-shape" suggests that our data has a skewed distribution which a standard linear model isn't fully accounting for.
 
 ### Generalized Linear Model
 
@@ -1122,7 +1122,7 @@ cat("LM MAE:", mae_lm, "\n")
 cat("GLM MAE:", mae_glm)
 ```
 
--   Our evaluation shows that while the **Linear Model (LM)** remains the most accurate with an MAE of **79.15 Lakhs**, the **GLM (Gamma)** provides a more theoretically sound fit for the data distribution. The disparity between the **GLM's RMSE (422.25)** and **MAE (128.95)** indicates that the model is performing well on the majority of the dataset but is highly sensitive to a small number of extreme luxury outliers.
+-   Our evaluation shows that while the **Linear Model (LM)** remains the most accurate with an MAE of **79.15 Lakhs**, the **GLM (Gamma)** provides a more theoretically sound fit for the data distribution. The disparity between the **GLM's RMSE (422.25)** and **MAE (128.95)** indicates that the model is performing well on the majority of the dataset but is highly sensitive to a small number of cases.
 
 ### Decision Tree
 
