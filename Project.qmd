@@ -1211,7 +1211,7 @@ import_df
 -   Our Variable Importance analysis reveals that 'Location' is the primary determinant of property value in our dataset, accounting for over 99.9% of the model's predictive power. While physical attributes like 'Size' are traditionally important, the sheer variance in price between different Indian localities makes the specific neighborhood the only statistically significant predictor for our current decision tree.
 
 ```{r}
-#  Predict on Test Data
+# Predict on Test Data
 pred_tree <- predict(tree_model, newdata = test_data)
 
 # Calculate Errors
