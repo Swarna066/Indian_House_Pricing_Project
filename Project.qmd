@@ -522,7 +522,7 @@ s_counts <- table(dt$Year_Built[dt$Facing == "South"])
 e_counts <- table(dt$Year_Built[dt$Facing == "East"])
 w_counts <- table(dt$Year_Built[dt$Facing == "West"])
 
-# Determine the maximum count across all directions to set the Y-axis limit
+
 max_val <- max(c(n_counts, s_counts, e_counts, w_counts))
 
 
@@ -612,7 +612,7 @@ dt_expanded$Parking_Space <- ifelse(dt_expanded$Parking_Space == "Yes", 1, 0)
 # Sum the columns to get the count of houses for each
 amenity_counts <- colSums(dt_expanded[amenity_cols], na.rm = TRUE)
 
-# Create a summary table
+# summary table
 amenity_summary <- data.frame(
   Amenity = names(amenity_counts),
   Count = as.numeric(amenity_counts),
@@ -764,7 +764,6 @@ leaflet(city_geo) %>%
     radius = 5,
     weight = 1,
     fillOpacity = 0.8,
-    # Apply the color palette based on the price
     color = "white",
     fillColor = ~pal(Avg_Price_Lakhs),
     popup = ~paste0("<b>City:</b> ", City, 
@@ -820,13 +819,12 @@ leaflet(city_geo) %>%
     radius = 5,
     weight = 1,
     fillOpacity = 0.8,
-    # Apply the color palette based on the price
     color = "white",
     fillColor = ~pal(Median_Price_Lakhs),
     popup = ~paste0("<b>City:</b> ", City, 
                     "<br><b>Median Price:</b> ", round(Median_Price_Lakhs, 2), 
                     " Lakhs","<br><b>Total Properties:</b> ", Property_Count,
-      "<hr style='margin: 5px 0;'>", # Add a small horizontal line
+      "<hr style='margin: 5px 0;'>",
       "<b>Orientation Distribution:</b><br>",
       "North: ", Pct_North, "% | South: ", Pct_South, "%<br>",
       "East: ", Pct_East, "% | West: ", Pct_West, "%"),
