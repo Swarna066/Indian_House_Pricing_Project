@@ -2,8 +2,19 @@
 title: "Indian House Price Prediction Project"
 author:
   - name: "Mentor: Urbi Datta"
-  - name: "Group members: Atreya Ghoshal, Bighnesh Sahu, Srijita Datta, Sumit Jha, Swarnava Kundu"
-format: html
+  - name: "Group members: Atreya Ghoshal, Bighnesh Sahu, Srijita Datta, Sumit Jha,            Swarnava Kundu"
+date: today
+format:
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: true
+    code-fold: show
+    theme: cosmo
+    embed-resources: true
+execute:
+  warning: false
+  message: false    
 editor: visual
 ---
 
