@@ -22,6 +22,8 @@ editor: visual
 
 The **"India Housing Prices"** dataset contains 2.5 lakhs rows and 23 columns, offering detailed insights into housing market trends across various Indian states. It includes attributes related to - property types, pricing, location, and amenities, making it suitable for analysis ranging from basic descriptive statistics to advanced machine learning applications.
 
+HTML Version of our project: [Indian House Price Prediction Project](https://swarna066.github.io/Indian_House_Pricing_Project/Project.html)
+
 ```{r}
 dt = read.csv(file = "D:/MTTS STDSMLAI/Indian_House_Pricing_Project/india_housing_prices.csv", 
               header = TRUE)
@@ -85,6 +87,8 @@ Some preliminary observations of the given dataset:
 -   **Owner_Type**: Type of owner - Owner, Builder, Broker ( character ).
 
 -   **Availability_Status**: Status of availability - Ready_to_move, Under_construction ( character ).
+
+    To explore the following observations dynamically, you can access our **Interactive Indian House Price Dashboard** <https://atreyaghoshal.shinyapps.io/indian_housing_shiny/>.
 
 ```{r}
 typeof(dt$Availability_Status)
@@ -1260,3 +1264,21 @@ cat("Random Forest RMSE:", rmse_rf, "Lakhs")
     </div>
 
     </div>
+
+## Interactive Market Explorer
+
+Now that we have established that **Locality** is the primary driver of house prices (99.94% importance), you can explore the data yourself using our interactive dashboard. Use the filters below to see how different BHK types and localities compare in real-time.
+
+Link: <https://atreyaghoshal.shinyapps.io/indian_housing_shiny/>
+
+## Conclusion
+
+-   This study analysed housing prices in India using various statistical techniques in R.​
+
+-   Data-driven approaches can effectively capture trends in housing prices and provide valuable insights for buyers, sellers, and policymakers.​
+
+-   The results of our analysis suggest that the data may not be entirely authentic and may have been subject to manipulation.
+
+    ### Future Work
+
+    Analysis is limited by data quality and lack of temporal depth. Future work could incorporate additional economic and demographic variables to improve predictive accuracy.
