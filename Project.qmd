@@ -979,17 +979,22 @@ sum(is.na(dt_expanded$Median_Price_Locality))
 -   **H1:** mean \_price_of_villa \> mean_price_of_apartment
 
     ```{r}
-    t.test(Price_in_Lakhs ~ Property_Type,
-           data = subset(dt, Property_Type %in% c("Villa","Apartment")),
-           alternative = "greater")
-
+    villa <- dt$Price_in_Lakhs[dt$Property_Type == "Villa"]
+    apartment <- dt$Price_in_Lakhs[dt$Property_Type == "Apartment"]
+    t.test(villa, apartment, alternative = "greater")
     ```
 
 **Interpretation**:-
 
-Here the p-values are greater than 0.05, which implies that we failed to reject the null hypothesis. Thus, based on our data-set, we cannot conclude that the prices of villas are higher than that of apartments.
+At the 5% significance level, we fail to reject the null hypothesis (p \> 0.05). There is insufficient statistical evidence to conclude that villas are more expensive than apartments. In fact, the sample means indicate that apartment prices are slightly higher than villa prices in this data-set.
 
-There is insufficient evidence to conclude that the average price of villas are higher than that of apartments.
+```{r}
+var.test(villa, apartment)
+```
+
+-   Based on the output of the **F-test to compare two variances** for villas and apartments, we got that there is no statistically significant difference between the variance of villa prices and apartment prices in our data-set.
+
+-   The F-statistic very close to 1 (**F = 0.9921**) suggests that the variances are almost identical.
 
 ### Research Statement :- Do Furnished homes have more cost than the Unfurnished homes ?
 
@@ -998,15 +1003,14 @@ There is insufficient evidence to conclude that the average price of villas are 
 -   **ALTERNATIVE HYPOTHESIS**:- The furnished houses have higher prices than the unfurnished houses
 
     ```{r}
-    subset_dt <- subset(dt, Furnished_Status %in% c("Furnished", "Unfurnished"))
-
-    t.test(Price_in_Lakhs ~ Furnished_Status,
-           data = subset_dt)
+    furnished <- dt$Price_in_Lakhs[dt$Furnished_Status == "Furnished"]
+    unfurnished <- dt$Price_in_Lakhs[dt$Furnished_Status == "Unfurnished"]
+    t.test(furnished, unfurnished, alternative = "greater")
     ```
 
 **Interpretation:**
 
-Since the p-values = 0.44 \>0.05, we fail to reject the null hypothesis. Thus, we can say that there is no significant difference between the prices of the houses which are furnished or unfurnished(based on the data).
+At the 5% significance level, we fail to reject the null hypothesis (p \> 0.05). There is insufficient statistical evidence to conclude that furnished homes have more cost than the unfurnished homes. In fact, the sample means indicate that prices of the unfurnished homes are slightly higher than prices of the furnished homes in this data-set.
 
 ## Feature Engineering
 
